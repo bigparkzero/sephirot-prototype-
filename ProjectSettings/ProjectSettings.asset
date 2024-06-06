@@ -913,12 +913,12 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: d8a284c0-6e3b-48c8-86f0-9b53196c3e47
+  cloudProjectId: c8e78eac-502f-45f5-b86f-8e3db6f475ad
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Elder_Crown_
+  projectName: sephirot
   organizationId: me3012
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
