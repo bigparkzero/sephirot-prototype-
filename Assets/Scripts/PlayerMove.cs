@@ -8,30 +8,34 @@ public class PlayerMove : MonoBehaviour
     InputManager input;
     CharacterController _controller;
     GameObject mainCamera;
-
+    CameraController _cameraController;
 
     public float MoveSpeed = 2.0f;
-
     public float SprintSpeed = 5.335f;
-
     [Range(0.0f, 0.3f)]
     public float RotationSmoothTime = 0.12f;
-
     public float SpeedChangeRate = 10.0f;
 
-    private float _speed;
-    private float _targetRotation = 0.0f;
-    private float _rotationVelocity;
-    private float _verticalVelocity;
-    private float _terminalVelocity = 53.0f;
+
+    public float GroundedRadius = 0.28f;
+    public LayerMask GroundLayers;
+    public float GroundedOffset = -0.14f;
 
 
-
+    [HideInInspector] public float _speed;
+    [HideInInspector] public float _targetRotation = 0.0f;
+    [HideInInspector] public float _rotationVelocity;
+    [HideInInspector] public float _verticalVelocity;
+    [HideInInspector] public float _terminalVelocity = 53.0f;
+    [HideInInspector] public float targetSpeed;
+    [HideInInspector] public float currentHorizontalSpeed;
+    [HideInInspector] public float speedOffset;
     private void Awake()
     {
         input = GetComponent<InputManager>();
         _controller = GetComponent<CharacterController>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        _cameraController = GetComponent<CameraController>();
     }
     private void Update()
     {
@@ -39,45 +43,43 @@ public class PlayerMove : MonoBehaviour
     }
     private void Move()
     {
-        float targetSpeed = input.sprint ? SprintSpeed : MoveSpeed;
-
+        targetSpeed = input.sprint ? SprintSpeed : MoveSpeed;
         if (input.move == Vector2.zero) targetSpeed = 0.0f;
-
-        float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-
-        float speedOffset = 0.1f;
-
-        if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-            currentHorizontalSpeed > targetSpeed + speedOffset)
+        currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+        speedOffset = 0.1f;
+        if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
         {
             _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * input.move.magnitude,
                     Time.deltaTime * SpeedChangeRate);
-
             _speed = Mathf.Round(_speed * 1000f) / 1000f;
         }
         else
-        {
             _speed = targetSpeed;
-        }
-
         Vector3 inputDirection = new Vector3(input.move.x, 0.0f, input.move.y).normalized;
 
         if (input.move != Vector2.zero)
         {
             _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                              mainCamera.transform.eulerAngles.y;
+                                     mainCamera.transform.eulerAngles.y;
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                RotationSmoothTime);
-
+                RotationSmoothTime);        
             transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
         }
-
-
+        if (input.aiming)
+            transform.rotation = Quaternion.Euler(0.0f, mainCamera.transform.eulerAngles.y, 0.0f);
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+    }
 
-       
+
+    public bool GroundedCheck()
+    {
+        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
+            transform.position.z);
+        bool Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
+            QueryTriggerInteraction.Ignore);
+
+        return Grounded;
     }
 }

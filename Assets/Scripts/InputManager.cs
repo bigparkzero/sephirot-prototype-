@@ -8,11 +8,10 @@ public class InputManager : MonoBehaviour
     public Vector2 look;
     public bool jump;
     public bool sprint;
+    public bool aiming;
 
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
-
-
 
     public void OnMove(InputValue value)
     {
@@ -37,12 +36,13 @@ public class InputManager : MonoBehaviour
         sprint = value.isPressed;
     }
 
+    public void OnAim(InputValue value)
+    {
+        aiming = value.isPressed;
+    }
 
 
-
-
-
-    private void OnApplicationFocus(bool hasFocus)
+private void OnApplicationFocus(bool hasFocus)
     {
         SetCursorState(cursorLocked);
     }
