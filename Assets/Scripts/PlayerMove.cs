@@ -22,11 +22,14 @@ public class PlayerMove : MonoBehaviour
     public float GroundedOffset = -0.14f;
 
 
+    public float gravity = -9;
+    public float gravityMultiplier;
+    public float jumpPower;
+
     [HideInInspector] public float _speed;
     [HideInInspector] public float _targetRotation = 0.0f;
     [HideInInspector] public float _rotationVelocity;
     [HideInInspector] public float _verticalVelocity;
-    [HideInInspector] public float _terminalVelocity = 53.0f;
     [HideInInspector] public float targetSpeed;
     [HideInInspector] public float currentHorizontalSpeed;
     [HideInInspector] public float speedOffset;
@@ -40,6 +43,8 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         Move();
+        ApplyGravity();
+        Jump();
     }
     private void Move()
     {
@@ -71,8 +76,23 @@ public class PlayerMove : MonoBehaviour
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
     }
-
-
+    private void Jump()
+    {
+        if (GroundedCheck() && input.jump)
+            _verticalVelocity = jumpPower;
+        
+    }
+    private void ApplyGravity()
+    {
+        if (GroundedCheck() && _verticalVelocity < 0.01f)
+        {
+            _verticalVelocity = -0.1f;
+        }
+        else
+        {
+            _verticalVelocity += gravity * gravityMultiplier * Time.deltaTime;
+        }
+    }
     public bool GroundedCheck()
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
@@ -81,5 +101,13 @@ public class PlayerMove : MonoBehaviour
             QueryTriggerInteraction.Ignore);
 
         return Grounded;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawSphere(
+            new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
+            GroundedRadius);
+
     }
 }
