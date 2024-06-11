@@ -6,12 +6,21 @@ using UnityEngine.Animations.Rigging;
 
 public class ShootBehaviourScript : MonoBehaviour
 {
+    public float defaultCameraDistance;
+    public float defaultCameraSide;
+    public Vector3 defaultShoulderOffset;
+
+    public float aimingCameraDistance;
+    public float aimingCameraSide;
+    public Vector3 aimingShoulderOffset;
+
+    public float smoothspeed;
     InputManager input;
-    public CinemachineVirtualCamera _cinemachine;
-    Cinemachine3rdPersonFollow ThirdPersonFollow;
     Animator an;
-    public MultiAimConstraint rig;
     Camera mainCamera;
+    Cinemachine3rdPersonFollow ThirdPersonFollow;
+    public CinemachineVirtualCamera _cinemachine;
+    public MultiAimConstraint rig;
     public Transform aimPos;
 
     void Awake()
@@ -28,13 +37,8 @@ public class ShootBehaviourScript : MonoBehaviour
         if (input.aiming)
         {
             an.SetBool("aiming", true);
-            ThirdPersonFollow.CameraDistance = 1.5f;
-            ThirdPersonFollow.CameraSide = 1f;
-            ThirdPersonFollow.ShoulderOffset = new Vector3(0.6f,0,0);
-            rig.weight = 1f;
             Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
             RaycastHit hit;
-
             if (Physics.Raycast(ray, out hit, 100))
             {
                 aimPos.position = hit.point;
@@ -48,10 +52,10 @@ public class ShootBehaviourScript : MonoBehaviour
         else
         {
             an.SetBool("aiming", false);
-            ThirdPersonFollow.CameraDistance = 6;
-            ThirdPersonFollow.CameraSide = 0.5f;
-            ThirdPersonFollow.ShoulderOffset = new Vector3(1f, 0, 0);
-            rig.weight = 0f;
         }
+        rig.weight = Mathf.Lerp(rig.weight, input.aiming ? 1 : 0, smoothspeed);
+        ThirdPersonFollow.CameraDistance = Mathf.Lerp(ThirdPersonFollow.CameraDistance, input.aiming ? aimingCameraDistance : defaultCameraDistance, smoothspeed);
+        ThirdPersonFollow.CameraSide = Mathf.Lerp(ThirdPersonFollow.CameraSide, input.aiming ? aimingCameraSide : defaultCameraSide, smoothspeed);
+        ThirdPersonFollow.ShoulderOffset = Vector3.Lerp(ThirdPersonFollow.ShoulderOffset, input.aiming ? aimingShoulderOffset : defaultShoulderOffset, smoothspeed);
     }
 }

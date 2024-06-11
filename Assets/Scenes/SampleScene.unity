@@ -1674,7 +1674,7 @@ MonoBehaviour:
       m_Item7:
         transform: {fileID: 0}
         weight: 0
-    m_Offset: {x: 0, y: 40, z: 0}
+    m_Offset: {x: 0, y: 45, z: 20}
     m_MinLimit: -180
     m_MaxLimit: 60
     m_AimAxis: 4
@@ -2338,10 +2338,10 @@ GameObject:
   - component: {fileID: 5287664041098184885}
   - component: {fileID: 5287664041098184882}
   - component: {fileID: 5287664041098184884}
+  - component: {fileID: 5287664041098184888}
   - component: {fileID: 1498135264911820925}
   - component: {fileID: 5287664041098184886}
   - component: {fileID: 5287664041098184887}
-  - component: {fileID: 5287664041098184888}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -3863,6 +3863,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0481dd033bf217a4c95704394a8f3b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultCameraDistance: 6
+  defaultCameraSide: 0.5
+  defaultShoulderOffset: {x: 1, y: 0, z: 0}
+  aimingCameraDistance: 1.5
+  aimingCameraSide: 1
+  aimingShoulderOffset: {x: 0.6, y: 0, z: 0}
+  smoothspeed: 0.1
   _cinemachine: {fileID: 3835667750409919064}
   rig: {fileID: 1497931141}
   aimPos: {fileID: 617817046}
