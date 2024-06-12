@@ -40,6 +40,18 @@ public class PlayerAnimator : MonoBehaviour
         if (_animationBlend < 0.01f) _animationBlend = 0f;
         an.SetFloat(_animIDSpeed, _animationBlend);
         an.SetFloat(_animIDMotionSpeed, input.move.normalized.magnitude);
+        if (input.roll)
+        {
+            an.SetTrigger("roll");
+        }
 
+        if (an.GetCurrentAnimatorStateInfo(0).IsName("roll"))
+        {
+            an.applyRootMotion = true;
+        }
+        else
+        {
+            an.applyRootMotion = false;
+        }
     }
 }

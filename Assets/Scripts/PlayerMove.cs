@@ -33,6 +33,10 @@ public class PlayerMove : MonoBehaviour
     [HideInInspector] public float targetSpeed;
     [HideInInspector] public float currentHorizontalSpeed;
     [HideInInspector] public float speedOffset;
+
+
+    
+
     private void Awake()
     {
         input = GetComponent<InputManager>();
@@ -45,7 +49,9 @@ public class PlayerMove : MonoBehaviour
         Move();
         ApplyGravity();
         Jump();
+        
     }
+    
     private void Move()
     {
         targetSpeed = input.sprint ? SprintSpeed : MoveSpeed;
@@ -84,7 +90,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void ApplyGravity()
     {
-        if (GroundedCheck() && _verticalVelocity < 0.01f)
+        if (_controller.isGrounded && _verticalVelocity < 0.01f)
         {
             _verticalVelocity = -0.1f;
         }

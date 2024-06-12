@@ -9,6 +9,8 @@ public class InputManager : MonoBehaviour
     public bool jump;
     public bool sprint;
     public bool aiming;
+    public bool fire;
+    public bool roll;
 
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
@@ -40,9 +42,20 @@ public class InputManager : MonoBehaviour
     {
         aiming = value.isPressed;
     }
+    public void OnFire(InputValue value)
+    {
+        fire = value.isPressed;
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+            roll = true;
+        else
+            roll = false;
 
+    }
 
-private void OnApplicationFocus(bool hasFocus)
+    private void OnApplicationFocus(bool hasFocus)
     {
         SetCursorState(cursorLocked);
     }
