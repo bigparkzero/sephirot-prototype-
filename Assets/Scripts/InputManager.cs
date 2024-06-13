@@ -24,7 +24,7 @@ public class InputManager : MonoBehaviour
     {
         if (cursorInputForLook)
         {
-            look = value.Get<Vector2>();
+            look = value.Get<Vector2>() * 2;
         }
     }
 
