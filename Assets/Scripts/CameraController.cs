@@ -29,18 +29,15 @@ public class CameraController : MonoBehaviour
        
     private void LateUpdate()
     {
-        // if there is an input and camera position is not fixed
         if (input.look.sqrMagnitude >= 0.01f && !LockCameraPosition)
         {
             _cinemachineTargetYaw += input.look.x;
             _cinemachineTargetPitch += input.look.y;
         }
 
-        // clamp our rotations so our values are limited 360 degrees
         _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
         _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
-        // Cinemachine will follow this target
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
             _cinemachineTargetYaw, 0.0f);
     }
