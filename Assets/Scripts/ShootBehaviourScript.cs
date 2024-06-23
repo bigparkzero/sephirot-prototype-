@@ -15,7 +15,6 @@ public class ShootBehaviourScript : MonoBehaviour
     public Vector3 aimingShoulderOffset;
 
     public float smoothspeed;
-    InputManager input;
     Animator an;
     Camera mainCamera;
     Cinemachine3rdPersonFollow ThirdPersonFollow;
@@ -25,7 +24,6 @@ public class ShootBehaviourScript : MonoBehaviour
 
     void Awake()
     {
-        input = GetComponent<InputManager>();
         ThirdPersonFollow = _cinemachine.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
         an = GetComponent<Animator>();
         mainCamera = Camera.main;
@@ -34,7 +32,7 @@ public class ShootBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (input.aiming)
+        if (Input.GetMouseButton(1))
         {
             an.SetBool("aiming", true);
             Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
@@ -53,9 +51,9 @@ public class ShootBehaviourScript : MonoBehaviour
         {
             an.SetBool("aiming", false);
         }
-        rig.weight = Mathf.Lerp(rig.weight, input.aiming ? 1 : 0, smoothspeed);
-        ThirdPersonFollow.CameraDistance = Mathf.Lerp(ThirdPersonFollow.CameraDistance, input.aiming ? aimingCameraDistance : defaultCameraDistance, smoothspeed);
-        ThirdPersonFollow.CameraSide = Mathf.Lerp(ThirdPersonFollow.CameraSide, input.aiming ? aimingCameraSide : defaultCameraSide, smoothspeed);
-        ThirdPersonFollow.ShoulderOffset = Vector3.Lerp(ThirdPersonFollow.ShoulderOffset, input.aiming ? aimingShoulderOffset : defaultShoulderOffset, smoothspeed);
+        rig.weight = Mathf.Lerp(rig.weight, Input.GetMouseButton(1) ? 1 : 0, smoothspeed);
+        ThirdPersonFollow.CameraDistance = Mathf.Lerp(ThirdPersonFollow.CameraDistance, Input.GetMouseButton(1) ? aimingCameraDistance : defaultCameraDistance, smoothspeed);
+        ThirdPersonFollow.CameraSide = Mathf.Lerp(ThirdPersonFollow.CameraSide, Input.GetMouseButton(1) ? aimingCameraSide : defaultCameraSide, smoothspeed);
+        ThirdPersonFollow.ShoulderOffset = Vector3.Lerp(ThirdPersonFollow.ShoulderOffset, Input.GetMouseButton(1) ? aimingShoulderOffset : defaultShoulderOffset, smoothspeed);
     }
 }
