@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0409332e234be7c40bc8d6896f22a4c4
+guid: 5544cf1be781cff4e9b5bd1a4d877489
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: roll
+      name: horizontal slash
       takeName: mixamo.com
       internalID: -203655887218126122
-      firstFrame: 8
-      lastFrame: 58
+      firstFrame: 0
+      lastFrame: 48
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -48,7 +48,7 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -57,6 +57,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 1
+        functionName: ApplyRootMotion
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 446f218fc31e0ed4ebe57e27df2baf47,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0
         functionName: ApplyRootMotion
         data: 
@@ -64,14 +72,6 @@ ModelImporter:
           type: 3}
         floatParameter: 0
         intParameter: 1
-        messageOptions: 0
-      - time: 0.9962963
-        functionName: ApplyRootMotion
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 446f218fc31e0ed4ebe57e27df2baf47,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
         messageOptions: 0
       transformMask: []
       maskType: 3

@@ -14,15 +14,19 @@ public class Combo : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             an.SetTrigger("attack");
+            if (AttackCount <= 2)
+            {
+                AttackCount = 0;
+            }
+            else
+            {
+                AttackCount += 1;
+            }
         }
-
-        if (an.GetCurrentAnimatorStateInfo(0).IsName("basic slash"))
-        {
-            an.applyRootMotion = true;
-        }
-        else
-        {
-            an.applyRootMotion = false;
-        }
+    }
+    public int AttackCount
+    {
+        get { return an.GetInteger("attackcount"); }
+        set { an.SetInteger("attackcount",value); }
     }
 }

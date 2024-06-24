@@ -89,7 +89,10 @@ public class PlayerMoveAnimation : MonoBehaviour
          
         lockon = GetComponent<LockOn>();
     }
-
+    public void ApplyRootMotion(int RootMotion)
+    {
+        an.applyRootMotion = RootMotion == 1 ? true : false;
+    }
     private void Update()
     {
 
@@ -100,15 +103,6 @@ public class PlayerMoveAnimation : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && !an.GetCurrentAnimatorStateInfo(0).IsName("roll"))
         {
             an.SetTrigger("roll");
-        }
-
-        if (an.GetCurrentAnimatorStateInfo(0).IsName("roll"))
-        {
-            an.applyRootMotion = true;
-        }
-        else
-        {
-            an.applyRootMotion = false;
         }
     }
 
