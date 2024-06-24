@@ -104,11 +104,11 @@ public class PlayerMoveAnimation : MonoBehaviour
 
         if (an.GetCurrentAnimatorStateInfo(0).IsName("roll"))
         {
-            //an.applyRootMotion = true;
+            an.applyRootMotion = true;
         }
         else
         {
-            //an.applyRootMotion = false;
+            an.applyRootMotion = false;
         }
     }
 
@@ -201,7 +201,7 @@ public class PlayerMoveAnimation : MonoBehaviour
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-            an.SetFloat(_animIDSpeed, _animationBlend);
+        an.SetFloat(_animIDSpeed, _animationBlend);
     }
 
     private void JumpAndGravity()
@@ -218,8 +218,7 @@ public class PlayerMoveAnimation : MonoBehaviour
             if (jump && _jumpTimeoutDelta <= 0.0f)
             {
                 _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
-                    an.SetBool(_animIDJump, true);
+                an.SetBool(_animIDJump, true);
             }
 
             if (_jumpTimeoutDelta >= 0.0f)
@@ -236,7 +235,7 @@ public class PlayerMoveAnimation : MonoBehaviour
             }
             else
             {
-                    an.SetBool(_animIDFreeFall, true);
+                an.SetBool(_animIDFreeFall, true);
             }
             jump = false;
         }
@@ -256,7 +255,6 @@ public class PlayerMoveAnimation : MonoBehaviour
     {
         Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
         Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
-
         if (Grounded) Gizmos.color = transparentGreen;
         else Gizmos.color = transparentRed;
         Gizmos.DrawSphere(

@@ -44,6 +44,7 @@ public class LockOn : MonoBehaviour
             if (isLockOn)
             {
                 ResetTarget();
+                currentTarget = null;
             }
             else
             {
@@ -111,6 +112,7 @@ public class LockOn : MonoBehaviour
     }
     void ResetTarget()
     {
+        currentTarget = null;
         isLockOn = false;
         targetEnemy.Clear();
         lockonimage.gameObject.SetActive(false);
