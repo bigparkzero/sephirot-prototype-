@@ -8,13 +8,15 @@ public class WireLauncher : MonoBehaviour
 
     public PlayerWireTargetRadar radar;
 
-    float WIRE_LAUNCHING_DURATION = 1f;
-    float WIRE_PULLING_DURATION = 0.5f;
+    PlayerMoveAnimation move;
+
+    float WIRE_LAUNCHING_DURATION = 0.3f;
+    float WIRE_PULLING_DURATION = 0.15f;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        move = GetComponent<PlayerMoveAnimation>();
     }
 
     // Update is called once per frame
@@ -33,6 +35,8 @@ public class WireLauncher : MonoBehaviour
 
             //invincible state, cannot control
 
+            move.isWireActivated = true;
+
             StartCoroutine(LaunchWire(target));
         }
     }
@@ -40,6 +44,9 @@ public class WireLauncher : MonoBehaviour
     IEnumerator LaunchWire(WireTarget target)
     {
         //launching anim.
+
+        float dirY = (target.transform.position - transform.position).normalized.y;
+        transform.rotation = Quaternion.Euler(0, dirY, 0);
 
         float progress = 0;
 
@@ -105,9 +112,7 @@ public class WireLauncher : MonoBehaviour
 
     void DashTo(WireTarget target)
     {
-        //dash jump start anim. jump state. remove invincibility. can control.
-
-        print("Dash to " + target.transform.root.name + "!");
+        move.WireDash(target);
     }
 
     void RemoveWire()

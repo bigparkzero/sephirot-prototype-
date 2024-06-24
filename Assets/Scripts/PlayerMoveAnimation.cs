@@ -1,4 +1,5 @@
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -65,6 +66,12 @@ public class PlayerMoveAnimation : MonoBehaviour
     public bool sprint;
     public Vector2 look;
 
+    //=====
+    [HideInInspector]
+    public bool isWireActivated;
+    float WIRE_DASH_SPEED = 45f;
+    float WIRE_DASH_JUMP_HEIGHT = 1f;
+
     private void Awake()
     {
         // get a reference to our main camera
@@ -92,9 +99,17 @@ public class PlayerMoveAnimation : MonoBehaviour
 
     private void Update()
     {
+        if (isWireActivated)
+        {
+            input();
+            return;
+        }
 
         JumpAndGravity();
-        GroundedCheck();
+        if (GroundedCheck())
+        {
+            an.SetBool(_animIDGrounded, Grounded);
+        }
         Move();
         input();
         if (Input.GetKeyDown(KeyCode.F) && !an.GetCurrentAnimatorStateInfo(0).IsName("roll"))
@@ -132,13 +147,14 @@ public class PlayerMoveAnimation : MonoBehaviour
         sprint = Input.GetKey(KeyCode.LeftShift);
         look = new Vector2(Input.GetAxisRaw("Mouse X"), -Input.GetAxisRaw("Mouse Y"));
     }
-    private void GroundedCheck()
+    private bool GroundedCheck()
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
             transform.position.z);
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
-        an.SetBool(_animIDGrounded, Grounded);
+
+        return Grounded;
     }
     private void CameraRotation()
     {
@@ -252,6 +268,57 @@ public class PlayerMoveAnimation : MonoBehaviour
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
+    public void WireDash(WireTarget target)
+    {
+        StartCoroutine(PerformWireDash(target));
+    }
+
+    IEnumerator PerformWireDash(WireTarget target)
+    {
+        if (target.dashPoint == null)
+        {
+            throw new System.Exception("WireTarget has no DashPoint! Please check WireTarget DashPoint.");
+        }
+
+        Vector3 targetPosition = target.dashPoint.position;
+
+        Vector3 startPosition = transform.position;
+        float distance = Vector3.Distance(startPosition, targetPosition);
+        float dashTime = distance / WIRE_DASH_SPEED;
+
+        float elapsedTime = 0;
+
+        float startY = transform.position.y;
+        float targetY = targetPosition.y;
+        float heightDifference = targetY - startY;
+
+        //TODO: dashing anim? 점프 애니메이션 움찔거림 문제.
+        if (GroundedCheck())
+        {
+            an.SetBool(_animIDJump, true);
+        }
+
+        while (elapsedTime < dashTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float elapsedTimeRate = Mathf.Min(elapsedTime / dashTime, 1);
+
+            float height = Mathf.Sin(Mathf.PI * elapsedTimeRate) * WIRE_DASH_JUMP_HEIGHT + Mathf.Lerp(startY, targetY, elapsedTimeRate);
+            Vector3 currentPos = Vector3.Lerp(startPosition, targetPosition, elapsedTimeRate);
+            currentPos.y = height;
+
+            _controller.Move(currentPos - transform.position);
+
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+        _controller.Move(Vector3.zero);
+
+        isWireActivated = false;
+    }
+
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
@@ -263,5 +330,6 @@ public class PlayerMoveAnimation : MonoBehaviour
             new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
             GroundedRadius);
     }
+#endif
 }
 
