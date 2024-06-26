@@ -72,6 +72,8 @@ public class PlayerMoveAnimation : MonoBehaviour
     float WIRE_DASH_SPEED = 45f;
     float WIRE_DASH_JUMP_HEIGHT = 1f;
 
+    Knockback knockback;
+
     private void Awake()
     {
         // get a reference to our main camera
@@ -95,10 +97,18 @@ public class PlayerMoveAnimation : MonoBehaviour
         _fallTimeoutDelta = FallTimeout;
          
         lockon = GetComponent<LockOn>();
+
+        knockback = GetComponent<Knockback>();
     }
 
     private void Update()
     {
+        if (knockback.IsKnockbacked)
+        {
+            input();
+            return;
+        }
+
         if (isWireActivated)
         {
             input();
@@ -119,11 +129,11 @@ public class PlayerMoveAnimation : MonoBehaviour
 
         if (an.GetCurrentAnimatorStateInfo(0).IsName("roll"))
         {
-            //an.applyRootMotion = true;
+            an.applyRootMotion = true;
         }
         else
         {
-            //an.applyRootMotion = false;
+            an.applyRootMotion = false;
         }
     }
 
@@ -273,14 +283,32 @@ public class PlayerMoveAnimation : MonoBehaviour
         StartCoroutine(PerformWireDash(target));
     }
 
-    IEnumerator PerformWireDash(WireTarget target)
+    IEnumerator PerformWireDash(WireTarget wireTarget)
     {
-        if (target.dashPoint == null)
+        if (wireTarget.dashPoint == null || wireTarget.dashPoint.Length <= 0)
         {
             throw new System.Exception("WireTarget has no DashPoint! Please check WireTarget DashPoint.");
         }
 
-        Vector3 targetPosition = target.dashPoint.position;
+        float shortest = float.MaxValue;
+        Transform target = null;
+        foreach (var dashPoint in wireTarget.dashPoint)
+        {
+            float dist = Vector3.Distance(dashPoint.position, transform.position);
+            if (dist < shortest)
+            {
+                shortest = dist;
+                target = dashPoint;
+            }
+        }
+
+        if (target == null)
+        {
+            throw new System.Exception("something wrong with PlayerMoveAnimation.PerformWireDash() coroutine's targeting. no target is selected.");
+        }
+
+        Vector3 targetPosition = target.position;
+        print(targetPosition);
 
         Vector3 startPosition = transform.position;
         float distance = Vector3.Distance(startPosition, targetPosition);
@@ -315,6 +343,8 @@ public class PlayerMoveAnimation : MonoBehaviour
         transform.position = targetPosition;
         _controller.Move(Vector3.zero);
 
+        Physics.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Enemy"), false);
+        an.SetBool("IsWireDashing", false);
         isWireActivated = false;
     }
 

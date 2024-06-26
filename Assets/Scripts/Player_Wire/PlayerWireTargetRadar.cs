@@ -80,7 +80,7 @@ public class PlayerWireTargetRadar : MonoBehaviour
             CreateMarker(pos, screenPos);
         }
 
-        //closest marker has a special visual indicator.
+        //TODO: closest marker has a special visual indicator.
         //while fight, only draw closest marker.
     }
 

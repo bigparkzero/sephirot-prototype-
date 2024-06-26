@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WireTarget : MonoBehaviour
 {
-    public Transform dashPoint;
+    public Transform[] dashPoint;
 
     public bool isPullable;
 }
