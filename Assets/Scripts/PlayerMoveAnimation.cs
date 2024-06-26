@@ -94,9 +94,15 @@ public class PlayerMoveAnimation : MonoBehaviour
          
         lockon = GetComponent<LockOn>();
     }
+<<<<<<< Updated upstream
     public void ApplyRootMotion(int RootMotion)
     {
         an.applyRootMotion = RootMotion == 1 ? true : false;
+=======
+    public void ApplyRootMotion(int rootmotion)
+    {
+        an.applyRootMotion = rootmotion == 1 ? true : false;
+>>>>>>> Stashed changes
     }
     private void Update()
     {
@@ -109,6 +115,10 @@ public class PlayerMoveAnimation : MonoBehaviour
         {
             an.SetTrigger("roll");
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     }
 
     private void LateUpdate()

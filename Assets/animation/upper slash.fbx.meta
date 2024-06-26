@@ -65,7 +65,11 @@ ModelImporter:
         floatParameter: 0
         intParameter: 1
         messageOptions: 0
+<<<<<<< Updated upstream
       - time: 0.9962963
+=======
+      - time: 1
+>>>>>>> Stashed changes
         functionName: ApplyRootMotion
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 446f218fc31e0ed4ebe57e27df2baf47,

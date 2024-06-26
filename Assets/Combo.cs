@@ -21,7 +21,11 @@ public class Combo : MonoBehaviour
         {
             an.SetTrigger("specialslash");
 
+<<<<<<< Updated upstream
         }
+=======
+        
+>>>>>>> Stashed changes
     }
     public int AttackCount
     {
