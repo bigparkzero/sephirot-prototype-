@@ -58,6 +58,7 @@ AnimatorStateMachine:
     second:
     - {fileID: -2608969192836992557}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_StateMachineBehaviours:
 <<<<<<< Updated upstream
   - {fileID: 3254812271392869528}
@@ -67,10 +68,14 @@ AnimatorStateMachine:
 =======
   m_StateMachineBehaviours: []
 >>>>>>> parent of 931dd87 (콤보 구현 1)
+=======
+  m_StateMachineBehaviours: []
+>>>>>>> parent of 931dd87 (콤보 구현 1)
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 750, y: -10, z: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< Updated upstream
   m_DefaultState: {fileID: 6098228751983099380}
@@ -78,6 +83,8 @@ AnimatorStateMachine:
   m_DefaultState: {fileID: 2303492519366664}
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> parent of 931dd87 (콤보 구현 1)
   m_DefaultState: {fileID: 0}
 --- !u!1102 &-8163112322840987043
 AnimatorState:
@@ -136,6 +143,9 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+<<<<<<< HEAD
+>>>>>>> parent of 931dd87 (콤보 구현 1)
+=======
 >>>>>>> parent of 931dd87 (콤보 구현 1)
 --- !u!1101 &-8079071960593444741
 AnimatorStateTransition:
@@ -182,6 +192,7 @@ AnimatorStateMachine:
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1101 &-7635665771348249831
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -207,6 +218,8 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+=======
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 =======
 >>>>>>> parent of 931dd87 (콤보 구현 1)
 --- !u!1102 &-7469282255733588732
@@ -254,6 +267,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.925
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_HasExitTime: 0
   m_HasFixedDuration: 1
@@ -305,6 +319,8 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.16072422
   m_TransitionOffset: 0
   m_ExitTime: 0.80691165
+=======
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 =======
 >>>>>>> parent of 931dd87 (콤보 구현 1)
   m_HasExitTime: 1
@@ -394,10 +410,14 @@ AnimatorStateMachine:
   m_AnyStateTransitions:
   - {fileID: -8079071960593444741}
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   - {fileID: -6191373144740308010}
 =======
 >>>>>>> Stashed changes
+=======
+  - {fileID: 8899656931121411513}
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 =======
   - {fileID: 8899656931121411513}
 >>>>>>> parent of 931dd87 (콤보 구현 1)
@@ -555,6 +575,7 @@ AnimatorStateMachine:
   m_PrefabAsset: {fileID: 0}
   m_Name: sword
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_ChildStates:
   - serializedVersion: 1
 <<<<<<< Updated upstream
@@ -576,6 +597,9 @@ AnimatorStateMachine:
 =======
   m_ChildStates: []
 >>>>>>> parent of 931dd87 (콤보 구현 1)
+=======
+  m_ChildStates: []
+>>>>>>> parent of 931dd87 (콤보 구현 1)
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -583,6 +607,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< Updated upstream
   m_ExitPosition: {x: 410, y: 260, z: 0}
@@ -593,6 +618,11 @@ AnimatorStateMachine:
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 2303492519366664}
 >>>>>>> Stashed changes
+=======
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_DefaultState: {fileID: 0}
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 =======
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -874,6 +904,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     m_Controller: {fileID: 9100000}
   - m_Name: specialslash
@@ -885,6 +916,9 @@ AnimatorController:
 =======
     m_Controller: {fileID: 0}
 >>>>>>> Stashed changes
+=======
+    m_Controller: {fileID: 9100000}
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 =======
     m_Controller: {fileID: 9100000}
 >>>>>>> parent of 931dd87 (콤보 구현 1)
@@ -913,6 +947,7 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< Updated upstream
 --- !u!1101 &208692046062772610
@@ -982,6 +1017,8 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+=======
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 =======
 >>>>>>> parent of 931dd87 (콤보 구현 1)
 --- !u!1109 &431052239206309423
@@ -1241,6 +1278,7 @@ AnimatorStateTransition:
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 --- !u!114 &3254812271392869528
 MonoBehaviour:
@@ -1294,6 +1332,9 @@ AnimatorTransition:
 =======
 --- !u!1101 &3409081017360775932
 >>>>>>> parent of 931dd87 (콤보 구현 1)
+=======
+--- !u!1101 &3409081017360775932
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1316,9 +1357,12 @@ AnimatorStateTransition:
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 --- !u!1109 &3973105318568085342
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -1333,6 +1377,9 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
+<<<<<<< HEAD
+>>>>>>> parent of 931dd87 (콤보 구현 1)
+=======
 >>>>>>> parent of 931dd87 (콤보 구현 1)
 --- !u!1101 &5185278855704465556
 AnimatorStateTransition:
@@ -1359,6 +1406,7 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< Updated upstream
 --- !u!1102 &5292521494937555006
@@ -1447,6 +1495,8 @@ AnimatorState:
 >>>>>>> Stashed changes
 =======
 >>>>>>> parent of 931dd87 (콤보 구현 1)
+=======
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 --- !u!1107 &6135240470777123050
 AnimatorStateMachine:
   serializedVersion: 6
@@ -1473,6 +1523,7 @@ AnimatorStateMachine:
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 7395596977590022539}
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 --- !u!1102 &6389693356468553362
 AnimatorState:
@@ -1481,10 +1532,15 @@ AnimatorState:
 --- !u!1101 &6303378117361925907
 AnimatorStateTransition:
 >>>>>>> parent of 931dd87 (콤보 구현 1)
+=======
+--- !u!1101 &6303378117361925907
+AnimatorStateTransition:
+>>>>>>> parent of 931dd87 (콤보 구현 1)
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_Name: upper slash
   m_Speed: 2.5
@@ -1511,6 +1567,8 @@ AnimatorStateTransition:
 =======
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> parent of 931dd87 (콤보 구현 1)
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
@@ -1530,6 +1588,9 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+<<<<<<< HEAD
+>>>>>>> parent of 931dd87 (콤보 구현 1)
+=======
 >>>>>>> parent of 931dd87 (콤보 구현 1)
 --- !u!1102 &6904719651407550685
 AnimatorState:

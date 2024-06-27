@@ -16,6 +16,7 @@ public class Combo : MonoBehaviour
         {
             an.SetTrigger("attack");
 <<<<<<< HEAD
+<<<<<<< HEAD
             
 =======
         }
@@ -38,5 +39,17 @@ public class Combo : MonoBehaviour
 =======
         
 >>>>>>> Stashed changes
+=======
+        }
+
+        if (an.GetCurrentAnimatorStateInfo(0).IsName("basic slash"))
+        {
+            an.applyRootMotion = true;
+        }
+        else
+        {
+            an.applyRootMotion = false;
+        }
+>>>>>>> parent of 931dd87 (콤보 구현 1)
     }
 }

@@ -57,6 +57,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
 <<<<<<< HEAD
+<<<<<<< HEAD
       events:
 <<<<<<< Updated upstream
       - time: 1
@@ -91,6 +92,9 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
 >>>>>>> Stashed changes
+=======
+      events: []
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 =======
       events: []
 >>>>>>> parent of 931dd87 (콤보 구현 1)
