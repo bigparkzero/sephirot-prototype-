@@ -94,6 +94,7 @@ public class PlayerMoveAnimation : MonoBehaviour
          
         lockon = GetComponent<LockOn>();
     }
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     public void ApplyRootMotion(int RootMotion)
     {
@@ -104,6 +105,9 @@ public class PlayerMoveAnimation : MonoBehaviour
         an.applyRootMotion = rootmotion == 1 ? true : false;
 >>>>>>> Stashed changes
     }
+=======
+
+>>>>>>> parent of 931dd87 (콤보 구현 1)
     private void Update()
     {
 
@@ -115,10 +119,22 @@ public class PlayerMoveAnimation : MonoBehaviour
         {
             an.SetTrigger("roll");
         }
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 
 >>>>>>> Stashed changes
+=======
+
+        if (an.GetCurrentAnimatorStateInfo(0).IsName("roll"))
+        {
+            an.applyRootMotion = true;
+        }
+        else
+        {
+            an.applyRootMotion = false;
+        }
+>>>>>>> parent of 931dd87 (콤보 구현 1)
     }
 
     private void LateUpdate()

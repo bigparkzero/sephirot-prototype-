@@ -15,7 +15,19 @@ public class Combo : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             an.SetTrigger("attack");
+<<<<<<< HEAD
             
+=======
+        }
+
+        if (an.GetCurrentAnimatorStateInfo(0).IsName("basic slash"))
+        {
+            an.applyRootMotion = true;
+        }
+        else
+        {
+            an.applyRootMotion = false;
+>>>>>>> parent of 931dd87 (콤보 구현 1)
         }
         if (Input.GetMouseButtonDown(1))
         {
@@ -26,10 +38,5 @@ public class Combo : MonoBehaviour
 =======
         
 >>>>>>> Stashed changes
-    }
-    public int AttackCount
-    {
-        get { return an.GetInteger("attackcount"); }
-        set { an.SetInteger("attackcount",value); }
     }
 }

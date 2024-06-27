@@ -56,6 +56,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
+<<<<<<< HEAD
       events:
       - time: 0
         functionName: ApplyRootMotion
@@ -77,6 +78,9 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+=======
+      events: []
+>>>>>>> parent of 931dd87 (콤보 구현 1)
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

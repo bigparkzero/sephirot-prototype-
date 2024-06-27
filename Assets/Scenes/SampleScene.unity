@@ -353,17 +353,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7fd87e0e987410f489688443da3e5411,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.7806779
+      value: 0.7816843
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7fd87e0e987410f489688443da3e5411,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.16453019
+      value: -0.18267371
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7fd87e0e987410f489688443da3e5411,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.36287284
+      value: 0.33342704
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7fd87e0e987410f489688443da3e5411,
         type: 3}
@@ -1585,17 +1585,21 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   m_Intensity: 1
 =======
   m_Intensity: 0.57
 >>>>>>> Stashed changes
+=======
+  m_Intensity: 0.05
+>>>>>>> parent of 931dd87 (콤보 구현 1)
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -1646,14 +1650,23 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
+<<<<<<< HEAD
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+=======
+  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+>>>>>>> parent of 931dd87 (콤보 구현 1)
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+=======
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+>>>>>>> parent of 931dd87 (콤보 구현 1)
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1754,7 +1767,7 @@ Transform:
   m_GameObject: {fileID: 434509834}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -74.3704, y: 0.6875, z: -54.853447}
+  m_LocalPosition: {x: -74.3704, y: -5.1, z: -54.853447}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6966,17 +6979,17 @@ PrefabInstance:
     - target: {fileID: 4481811119094191712, guid: 30f00672d84b6ae4ea673eb5cae4f72e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -224.1875
+      value: -95.6
       objectReference: {fileID: 0}
     - target: {fileID: 4481811119094191712, guid: 30f00672d84b6ae4ea673eb5cae4f72e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.0625
+      value: 20.3
       objectReference: {fileID: 0}
     - target: {fileID: 4481811119094191712, guid: 30f00672d84b6ae4ea673eb5cae4f72e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -114.0625
+      value: -281.3
       objectReference: {fileID: 0}
     - target: {fileID: 4481811119094191712, guid: 30f00672d84b6ae4ea673eb5cae4f72e,
         type: 3}
@@ -12711,8 +12724,8 @@ MonoBehaviour:
   targetlayer:
     serializedVersion: 2
     m_Bits: 64
-  minViewAngle: -70
-  maxViewAngle: 70
+  minViewAngle: -40
+  maxViewAngle: 40
   targetEnemy: []
   lockonimage: {fileID: 695363487}
   cameraDirectionY: -0.3
@@ -12740,7 +12753,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7250619722198422513}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c86e57a6fe94c94bac3fa7ca3836dcd, type: 3}
   m_Name: 
