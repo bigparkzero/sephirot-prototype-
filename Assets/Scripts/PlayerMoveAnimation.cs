@@ -1,4 +1,5 @@
 
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -53,6 +54,10 @@ public class PlayerMoveAnimation : MonoBehaviour
     private int _animIDFreeFall;
     private int _animIDMotionSpeed;
 
+
+    private Quaternion LerpTargetPos;
+
+
     private Animator an;
     private CharacterController _controller;
     private GameObject _mainCamera;
@@ -89,9 +94,15 @@ public class PlayerMoveAnimation : MonoBehaviour
          
         lockon = GetComponent<LockOn>();
     }
+<<<<<<< Updated upstream
     public void ApplyRootMotion(int RootMotion)
     {
         an.applyRootMotion = RootMotion == 1 ? true : false;
+=======
+    public void ApplyRootMotion(int rootmotion)
+    {
+        an.applyRootMotion = rootmotion == 1 ? true : false;
+>>>>>>> Stashed changes
     }
     private void Update()
     {
@@ -104,6 +115,10 @@ public class PlayerMoveAnimation : MonoBehaviour
         {
             an.SetTrigger("roll");
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     }
 
     private void LateUpdate()
@@ -155,7 +170,6 @@ public class PlayerMoveAnimation : MonoBehaviour
             Vector3 camAngles = _mainCamera.transform.eulerAngles;
             _cinemachineTargetPitch = camAngles.x > TopClamp ? camAngles.x - 360 : camAngles.x;
             _cinemachineTargetYaw = camAngles.y;
-            print(camAngles);
         }
         else
         {
@@ -184,17 +198,41 @@ public class PlayerMoveAnimation : MonoBehaviour
         _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
         if (_animationBlend < 0.01f) _animationBlend = 0f;
         Vector3 inputDirection = new Vector3(move.x, 0.0f, move.y).normalized;
+       
         if (move != Vector2.zero)
         {
             _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                               _mainCamera.transform.eulerAngles.y;
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                 RotationSmoothTime);
-            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            if (!an.applyRootMotion)
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+        }
+        if (an.applyRootMotion && lockon.currentTarget != null)
+        {
+            Vector3 lookvetor = lockon.currentTarget.transform.position - transform.position;
+            if (Mathf.Abs(lookvetor.magnitude) >= 4 +lockon.currentTarget.transform.localScale.x)
+            {
+                if (Mathf.Abs(lookvetor.magnitude) < 25 + lockon.currentTarget.transform.localScale.x)
+                {
+                    _controller.Move(new Vector3( lookvetor.x,0, lookvetor.z).normalized * Time.deltaTime * 50);
+                }
+            }
+            
+            print(Mathf.Abs(lookvetor.magnitude));
+                
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0.0f, Mathf.Atan2(lookvetor.normalized.x, lookvetor.normalized.z) * Mathf.Rad2Deg, 0.0f), 0.1f);
+            if (Input.GetMouseButtonDown(1))
+            {
+                transform.rotation = Quaternion.Euler(0.0f, Mathf.Atan2(lookvetor.normalized.x, lookvetor.normalized.z) * Mathf.Rad2Deg, 0.0f);
+            }
         }
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-        _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                         new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+        if (!an.applyRootMotion)
+        {
+            _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+                             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+        }
         an.SetFloat(_animIDSpeed, _animationBlend);
     }
 

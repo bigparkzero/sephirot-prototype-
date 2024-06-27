@@ -11,18 +11,21 @@ public class Combo : MonoBehaviour
     }
     private void Update()
     {
+        
         if (Input.GetMouseButtonDown(0))
         {
             an.SetTrigger("attack");
-            if (AttackCount <= 2)
-            {
-                AttackCount = 0;
-            }
-            else
-            {
-                AttackCount += 1;
-            }
+            
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            an.SetTrigger("specialslash");
+
+<<<<<<< Updated upstream
+        }
+=======
+        
+>>>>>>> Stashed changes
     }
     public int AttackCount
     {
