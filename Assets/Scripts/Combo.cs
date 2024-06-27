@@ -18,29 +18,6 @@ public class Combo : MonoBehaviour
 
         }
 
-        if (an.GetCurrentAnimatorStateInfo(0).IsName("basic slash"))
-        {
-            an.applyRootMotion = true;
-        }
-        else
-        {
-            an.applyRootMotion = false;
-
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            an.SetTrigger("specialslash");
-
-        }
-    
-
-        if (an.GetCurrentAnimatorStateInfo(0).IsName("basic slash"))
-        {
-            an.applyRootMotion = true;
-        }
-        else
-{
-    an.applyRootMotion = false;
-}
+       
     }
 }
