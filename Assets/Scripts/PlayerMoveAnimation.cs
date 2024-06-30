@@ -106,21 +106,7 @@ public class PlayerMoveAnimation : MonoBehaviour
         GroundedCheck();
         Move();
         input();
-        if (Input.GetKeyDown(KeyCode.F) && !an.GetCurrentAnimatorStateInfo(0).IsName("roll"))
-        {
-            an.SetTrigger("roll");
-        }
-
-
-        if (an.GetCurrentAnimatorStateInfo(0).IsName("roll"))
-        {
-            an.applyRootMotion = true;
-        }
-        else
-        {
-            an.applyRootMotion = false;
-        }
-
+        roll();
     }
 
     private void LateUpdate()
