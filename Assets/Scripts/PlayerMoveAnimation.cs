@@ -53,7 +53,7 @@ public class PlayerMoveAnimation : MonoBehaviour
     private int _animIDJump;
     private int _animIDFreeFall;
     private int _animIDMotionSpeed;
-
+    private int _animIDPlayerAngle;
 
     private Quaternion LerpTargetPos;
 
@@ -135,6 +135,7 @@ public class PlayerMoveAnimation : MonoBehaviour
         _animIDJump = Animator.StringToHash("Jump");
         _animIDFreeFall = Animator.StringToHash("FreeFall");
         _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        _animIDPlayerAngle = Animator.StringToHash("PlayerAngle");
     }
     void input()
     {
@@ -208,7 +209,16 @@ public class PlayerMoveAnimation : MonoBehaviour
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                 RotationSmoothTime);
             if (!an.applyRootMotion)
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            {
+                if (lockon.isLockOn)
+                {
+                    transform.rotation = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y, 0.0f);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                }
+            }
         }
         if (an.applyRootMotion && lockon.currentTarget != null)
         {
@@ -236,6 +246,12 @@ public class PlayerMoveAnimation : MonoBehaviour
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
         }
         an.SetFloat(_animIDSpeed, _animationBlend);
+        print(Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg - _mainCamera.transform.eulerAngles.y);
+        float velocity = 2;
+        an.SetFloat(_animIDPlayerAngle, lockon.isLockOn ? Mathf.SmoothDamp(an.GetFloat(_animIDPlayerAngle),
+                                                                           _targetRotation - _mainCamera.transform.eulerAngles.y,
+                                                                           ref velocity, 0.05f) : 0);
+        
     }
 
     private void JumpAndGravity()
