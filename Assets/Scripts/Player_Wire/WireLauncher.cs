@@ -17,10 +17,10 @@ public class WireLauncher : MonoBehaviour
     float WIRE_LAUNCHING_DURATION = 0.5f;
     float WIRE_PULLING_DURATION = 0.5f;
 
-    public GameObject prefab_WireVine;
+    public WireShaderController wireController;
 
-    //TODO: temp. delete this
-    LineRenderer lineRenderer;
+    float wireCurrentCooldown;
+    float WIRE_COOLDOWN = 1.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +34,12 @@ public class WireLauncher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (wireCurrentCooldown > 0)
+        {
+            wireCurrentCooldown -= Time.deltaTime;
+            return;
+        }
+
         if (knockback.IsKnockbacked)
         {
             return;
@@ -41,6 +47,8 @@ public class WireLauncher : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            wireCurrentCooldown = WIRE_COOLDOWN;
+
             GameObject targetPoint = radar.closest;
 
             if (targetPoint == null)
@@ -60,21 +68,6 @@ public class WireLauncher : MonoBehaviour
 
     IEnumerator LaunchWire(WireTarget target)
     {
-        //TODO: temp. delete this.
-        if (!TryGetComponent(out lineRenderer))
-        {
-            lineRenderer = gameObject.AddComponent<LineRenderer>();
-        }
-
-        lineRenderer.enabled = true;
-        lineRenderer.positionCount = 2;
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startColor = Color.green;
-        lineRenderer.endColor = Color.green;
-        lineRenderer.startWidth = 0.2f;
-        lineRenderer.endWidth = 0.2f;
-        //============================================================
-
         anim.SetBool("IsWireLaunching", true);
         controller.Move(Vector3.zero);
 
@@ -84,25 +77,31 @@ public class WireLauncher : MonoBehaviour
 
         float progress = 0;
 
+        float distance = Vector3.Distance(target.transform.position, transform_RightHand.transform.position);
+        float wireSpeed = distance / WIRE_LAUNCHING_DURATION;
+
+        wireController.ActivateWire(target.transform, wireSpeed, WIRE_LAUNCHING_DURATION, WIRE_PULLING_DURATION);
+
         while (progress < WIRE_LAUNCHING_DURATION)
         {
             progress += Time.deltaTime;
 
-            //TODO: temp. delete this.
-            lineRenderer.SetPosition(0, transform_RightHand.transform.position);
-            lineRenderer.SetPosition(1, target.transform.position);
-            //============================
-
             if (target == null)
             {
-                RemoveWire();
+                DoForcedDissolveWire();
 
                 yield break;
             }
 
-            //TODO: wire launching graphic
-
             yield return null;
+        }
+
+        if (target.isPullable)
+        {
+            if (target.transform.root.TryGetComponent(out Knockback targetKnockback))
+            {
+                targetKnockback.ApplyKnockback(transform.position - target.transform.position, 4);
+            }
         }
 
         StartCoroutine(PullWire(target));
@@ -110,32 +109,21 @@ public class WireLauncher : MonoBehaviour
 
     IEnumerator PullWire(WireTarget target)
     {
-        //TODO: pulling anim. wire curves and stretchs.
-
         float progress = 0f;
 
         while (progress < WIRE_PULLING_DURATION)
         {
             progress += Time.deltaTime;
 
-            //TODO: temp. delete this.
-            lineRenderer.SetPosition(0, transform_RightHand.transform.position);
-            lineRenderer.SetPosition(1, target.transform.position);
-            //============================
-
             if (target == null)
             {
-                RemoveWire();
+                DoForcedDissolveWire();
 
                 yield break;
             }
 
-            //TODO: wire pulling graphic
-
             yield return null;
         }
-
-        RemoveWire();
 
         if (target.isPullable)
         {
@@ -151,11 +139,6 @@ public class WireLauncher : MonoBehaviour
     {
         //TODO: remove invincibility. can control.
 
-        if (target.transform.root.TryGetComponent(out Knockback targetKnockback))
-        {
-            targetKnockback.ApplyKnockback(transform.position - target.transform.position, 4);
-        }
-
         anim.SetBool("IsWireLaunching", false);
         move.isWireActivated = false;
     }
@@ -170,12 +153,8 @@ public class WireLauncher : MonoBehaviour
         move.WireDash(target);
     }
 
-    void RemoveWire()
+    void DoForcedDissolveWire()
     {
-        //TODO: temp. delete this.
-        lineRenderer.enabled = false;
-        //===============================
-
-        print("removing wire.");
+        wireController.DoForcedDissolve();
     }
 }

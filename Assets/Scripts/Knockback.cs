@@ -20,6 +20,7 @@ public class Knockback : MonoBehaviour
     float KNOCKBACK_MOVE_DURATION = 0.5f;
 
     float knockbackResistGauge = 0f;
+    float KNOCKBACK_RESIST_DECREASE_AMOUNT = 0.4f;
     public float knockbackResist = 10f;
     float currentImmuneTime = 0f;
     float KNOCKBACK_IMMUNE_TIME = 3f;
@@ -71,6 +72,11 @@ public class Knockback : MonoBehaviour
         }
         //====================================
 
+        if (knockbackResistGauge > 0)
+        {
+            knockbackResistGauge -= Time.deltaTime * KNOCKBACK_RESIST_DECREASE_AMOUNT;
+        }
+
         if (currentImmuneTime > 0)
         {
             currentImmuneTime -= Time.deltaTime;
@@ -79,7 +85,7 @@ public class Knockback : MonoBehaviour
         HandleKnockback();
     }
 
-    public void ApplyKnockback(Vector3 dir, float power, float duration = 1.5f)
+    public void ApplyKnockback(Vector3 dir, float power, float duration = 0.7f)
     {
         if (currentImmuneTime > 0)
         {

@@ -308,7 +308,6 @@ public class PlayerMoveAnimation : MonoBehaviour
         }
 
         Vector3 targetPosition = target.position;
-        print(targetPosition);
 
         Vector3 startPosition = transform.position;
         float distance = Vector3.Distance(startPosition, targetPosition);
