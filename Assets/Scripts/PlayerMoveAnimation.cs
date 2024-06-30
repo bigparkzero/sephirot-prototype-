@@ -254,6 +254,18 @@ public class PlayerMoveAnimation : MonoBehaviour
         
     }
 
+    void roll()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            an.SetTrigger("roll");
+        }
+    }
+    public void applyRootMotion(int a)
+    {
+        an.applyRootMotion = a == 1 ? true : false; 
+    }
+
     private void JumpAndGravity()
     {
         if (_controller.isGrounded)
