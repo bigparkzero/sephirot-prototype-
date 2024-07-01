@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/ElementBackground.png.meta
 guid: 8851fc5b9712da0428c88e2f02390278
+========
+guid: 3cf4d52b14bd4254d9f4fd063f8d9bfd
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Night.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -33,6 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/ElementBackground.png.meta
     filterMode: 1
     aniso: 1
     mipBias: 0
@@ -40,6 +45,15 @@ TextureImporter:
     wrapV: 1
     wrapW: 0
   nPOTScale: 0
+========
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 1
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Night.png.meta
   lightmap: 0
   compressionQuality: 50
   spriteMode: 1
@@ -66,7 +80,11 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/ElementBackground.png.meta
     maxTextureSize: 2048
+========
+    maxTextureSize: 4096
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Night.png.meta
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -78,6 +96,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/ElementBackground.png.meta
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -106,6 +125,12 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
+========
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Night.png.meta
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0

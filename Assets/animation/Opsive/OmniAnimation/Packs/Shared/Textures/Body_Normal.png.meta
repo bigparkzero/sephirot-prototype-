@@ -1,13 +1,22 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/Body_Normal.png.meta
 guid: c04b0110e41dd02428251fc1a8cbafd4
+========
+guid: 9183c8173b34a5741a60673a672347cb
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Rainy.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
     mipMapMode: 0
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/Body_Normal.png.meta
     enableMipMap: 1
     sRGBTexture: 0
+========
+    enableMipMap: 0
+    sRGBTexture: 1
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Rainy.png.meta
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -33,12 +42,21 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/Body_Normal.png.meta
     filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 0
     wrapV: 0
     wrapW: 0
+========
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Rainy.png.meta
   nPOTScale: 1
   lightmap: 0
   compressionQuality: 50
@@ -66,7 +84,11 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/Body_Normal.png.meta
     maxTextureSize: 2048
+========
+    maxTextureSize: 4096
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Rainy.png.meta
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 2
@@ -78,6 +100,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/Body_Normal.png.meta
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -94,6 +117,12 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
+========
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Rainy.png.meta
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0

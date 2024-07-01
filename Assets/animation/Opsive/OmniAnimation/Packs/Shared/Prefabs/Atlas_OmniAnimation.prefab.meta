@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Prefabs/Atlas_OmniAnimation.prefab.meta
 guid: 55a7d03e5354eb8478fe6e0c30afcb16
 PrefabImporter:
   externalObjects: {}
+========
+guid: 12ccb828343c3405fb94289774b51aad
+NativeFormatImporter:
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Cubemaps/Classic/FS000_Day_01.mat.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 
