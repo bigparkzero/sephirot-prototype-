@@ -154,7 +154,6 @@ public class PlayerMoveAnimation : MonoBehaviour
         {
             Vector3 direction = (lockon.currentTarget.targetPos.transform.position - CinemachineCameraTarget.transform.position).normalized;
             direction.y += lockon.cameraDirectionY;
-
             CinemachineCameraTarget.transform.forward = Vector3.Lerp
                 (CinemachineCameraTarget.transform.forward, direction, Time.deltaTime * lockon.cameraDirectionSmoothTime);
             Vector3 camAngles = _mainCamera.transform.eulerAngles;
@@ -210,12 +209,20 @@ public class PlayerMoveAnimation : MonoBehaviour
         if (an.applyRootMotion && lockon.currentTarget != null)
         {
             Vector3 lookvetor = lockon.currentTarget.transform.position - transform.position;
-            if (Mathf.Abs(lookvetor.magnitude) >= 4 + lockon.currentTarget.transform.localScale.x)
+            if (Mathf.Abs(lookvetor.magnitude) >= 4 +lockon.currentTarget.transform.localScale.x)
             {
                 if (Mathf.Abs(lookvetor.magnitude) < 25 + lockon.currentTarget.transform.localScale.x)
                 {
-                    _controller.Move(new Vector3(lookvetor.x, 0, lookvetor.z).normalized * Time.deltaTime * 50);
+                    _controller.Move(new Vector3( lookvetor.x,0, lookvetor.z).normalized * Time.deltaTime * 50);
                 }
+            }
+            
+            print(Mathf.Abs(lookvetor.magnitude));
+                
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0.0f, Mathf.Atan2(lookvetor.normalized.x, lookvetor.normalized.z) * Mathf.Rad2Deg, 0.0f), 0.1f);
+            if (Input.GetMouseButtonDown(1))
+            {
+                transform.rotation = Quaternion.Euler(0.0f, Mathf.Atan2(lookvetor.normalized.x, lookvetor.normalized.z) * Mathf.Rad2Deg, 0.0f);
             }
         }
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
@@ -225,7 +232,7 @@ public class PlayerMoveAnimation : MonoBehaviour
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
         }
         an.SetFloat(_animIDSpeed, _animationBlend);
-        //print(Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg - _mainCamera.transform.eulerAngles.y);
+        print(Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg - _mainCamera.transform.eulerAngles.y);
         float velocity = 2;
         an.SetFloat(_animIDPlayerAngle, lockon.isLockOn ? Mathf.SmoothDamp(an.GetFloat(_animIDPlayerAngle),
                                                                            _targetRotation - _mainCamera.transform.eulerAngles.y,
@@ -242,18 +249,9 @@ public class PlayerMoveAnimation : MonoBehaviour
     }
     public void applyRootMotion(int a)
     {
-        //an.applyRootMotion = a == 1 ? true : false;
-        //Debug.Log("eagoaih");
+        an.applyRootMotion = a == 1 ? true : false; 
     }
 
-    public void playerrotation(float offset)
-    {
-        transform.rotation = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y + offset, 0.0f);
-        Debug.Log("egfinafd");
-    }
-
-    #region
-    #endregion
     private void JumpAndGravity()
     {
         if (_controller.isGrounded)

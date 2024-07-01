@@ -4,6 +4,5 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject targetPos;
-    public float lcokonimageoffset;
+    public GameObject targetPos;   
 }
