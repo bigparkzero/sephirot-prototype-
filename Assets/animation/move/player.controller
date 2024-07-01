@@ -213,7 +213,11 @@ AnimatorStateMachine:
     m_Position: {x: 450, y: -100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2646471961165192179}
+<<<<<<< HEAD
     m_Position: {x: 850, y: 30, z: 0}
+=======
+    m_Position: {x: 680, y: -20, z: 0}
+>>>>>>> 1994ffb4a4e6fe8c6d0ed218b0edf9e33c0799e0
   - serializedVersion: 1
     m_State: {fileID: 1134871859172185356}
     m_Position: {x: 520, y: 210, z: 0}
@@ -396,9 +400,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.31964803
+  m_TransitionDuration: 0.3196481
   m_TransitionOffset: 0
-  m_ExitTime: 0.75961995
+  m_ExitTime: 0.5493636
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -445,61 +449,61 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: MotionSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: FreeFall
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Jump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Grounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: PlayerAngle
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isLockOn
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: weaponID
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 1
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: roll
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -560,7 +564,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.31502736
   m_TransitionOffset: 0
-  m_ExitTime: 0.8011833
+  m_ExitTime: 0.6454177
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -628,7 +632,11 @@ AnimatorStateMachine:
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 4755773759247815374}
+<<<<<<< HEAD
     m_Position: {x: 690, y: -70, z: 0}
+=======
+    m_Position: {x: 730, y: -80, z: 0}
+>>>>>>> 1994ffb4a4e6fe8c6d0ed218b0edf9e33c0799e0
   m_AnyStateTransitions:
   - {fileID: -6626702508248112177}
   m_EntryTransitions: []
@@ -678,7 +686,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.4092505
   m_TransitionOffset: 0
-  m_ExitTime: 0.80679166
+  m_ExitTime: 0.7634188
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -749,7 +757,7 @@ AnimatorStateMachine:
     m_Position: {x: 380, y: -40, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: -6172276770356057053}
-    m_Position: {x: 450, y: 90, z: 0}
+    m_Position: {x: 440, y: 90, z: 0}
   m_AnyStateTransitions: []
   m_EntryTransitions:
   - {fileID: 3356976735724188695}
@@ -797,7 +805,10 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: attack
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6581496580658801494}
   m_Solo: 0
@@ -996,9 +1007,15 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
+<<<<<<< HEAD
   m_TransitionDuration: 0.4649884
   m_TransitionOffset: 0
   m_ExitTime: 0.37267
+=======
+  m_TransitionDuration: 0.32166266
+  m_TransitionOffset: 0
+  m_ExitTime: 0.66011894
+>>>>>>> 1994ffb4a4e6fe8c6d0ed218b0edf9e33c0799e0
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
