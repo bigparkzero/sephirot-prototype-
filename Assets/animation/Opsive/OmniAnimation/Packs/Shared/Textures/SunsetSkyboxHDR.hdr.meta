@@ -1,6 +1,10 @@
 fileFormatVersion: 2
 <<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/SunsetSkyboxHDR.hdr.meta
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/SunsetSkyboxHDR.hdr.meta
 guid: a985e89ba4177a440b021f322986f317
+========
+guid: e2c576b6d07638b468b5ba303a3a07cb
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Day_Sunless.png.meta
 ========
 guid: e2c576b6d07638b468b5ba303a3a07cb
 >>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Day_Sunless.png.meta
@@ -43,6 +47,9 @@ TextureImporter:
     filterMode: 2
 ========
     filterMode: -1
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/SunsetSkyboxHDR.hdr.meta
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Day_Sunless.png.meta
+========
 >>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Day_Sunless.png.meta
     aniso: -1
     mipBias: -100
@@ -92,6 +99,7 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
 <<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/SunsetSkyboxHDR.hdr.meta
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Textures/SunsetSkyboxHDR.hdr.meta
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -129,6 +137,9 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
+========
+    textureCompression: 2
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Day_Sunless.png.meta
 ========
     textureCompression: 2
 >>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Day_Sunless.png.meta

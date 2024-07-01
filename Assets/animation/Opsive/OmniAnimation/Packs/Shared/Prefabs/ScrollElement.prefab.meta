@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/Shared/Prefabs/ScrollElement.prefab.meta
 guid: caed45725e23d4240808c8daa6db2f37
 PrefabImporter:
   externalObjects: {}
+========
+guid: 12ccb828343c3405fb94289774b51aad
+NativeFormatImporter:
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Cubemaps/Classic/FS000_Day_01.mat.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 
