@@ -30,15 +30,6 @@ public class PlayerWireTargetRadar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            Time.timeScale = 0;
-        }
-        if (Input.GetKey(KeyCode.Return))
-        {
-            Time.timeScale = 1;
-        }
-
         detectedCols.Clear();
 
         foreach (Transform images in canvas_WireMarkers.transform)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//TODO: down 상태 추가해야함.
+//경직 시간 너무 길면 경직 모션 두번 재생되는 등 이상현상. 경직같은거 최대 시간 정해야할듯.
 public class Knockback : MonoBehaviour
 {
     CharacterController controller;
@@ -30,6 +32,8 @@ public class Knockback : MonoBehaviour
     public float GroundedRadius = 0.74f;
     public LayerMask GroundLayers;
     public float Gravity = -60.0f;
+
+    public bool isKnockbackable = true;
 
     bool Grounded
     {
@@ -146,7 +150,7 @@ public class Knockback : MonoBehaviour
         }
 
         //5 이상 밀려나면 넉백. 아니면 경직.
-        if (power > 5f)
+        if (isKnockbackable && power > 5f)
         {
             if (isFromBack)
             {
