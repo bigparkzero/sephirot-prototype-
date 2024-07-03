@@ -585,7 +585,7 @@ ModelImporter:
       events:
       - time: 0.34782606
         functionName: PlayVFX
-        data: 
+        data: '{"positionX":0.0,"positionY":1.5,"positionZ":0.0,"rotationX":-170,"rotationY":115,"rotationZ":-5} '
         objectReferenceParameter: {fileID: 11500000, guid: c78b4300c54ee974a8ce1443b1a901e5,
           type: 3}
         floatParameter: 0
