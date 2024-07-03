@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/animation/Opsive/OmniAnimation/Packs/CoreLocomotion/Animations/TPose/_README.txt.meta
 guid: 670ec3fd6cbaa5143ab77943ab66f094
 TextScriptImporter:
   externalObjects: {}
+========
+guid: 12ccb828343c3405fb94289774b51aad
+NativeFormatImporter:
+>>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Cubemaps/Classic/FS000_Day_01.mat.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 

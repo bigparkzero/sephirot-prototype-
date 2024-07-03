@@ -1,9 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 <<<<<<<< HEAD:Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Day_Sunless.png.meta
 guid: e2c576b6d07638b468b5ba303a3a07cb
 ========
 guid: 3cf4d52b14bd4254d9f4fd063f8d9bfd
 >>>>>>>> parent of 1994ffb (이펙트 , 루트모션):Assets/Fantasy Skybox FREE/Panoramics/FS002/FS002_Night.png.meta
+=======
+guid: e2c576b6d07638b468b5ba303a3a07cb
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

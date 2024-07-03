@@ -593,9 +593,12 @@ ModelImporter:
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 446f218fc31e0ed4ebe57e27df2baf47,
           type: 3}
+<<<<<<< HEAD
 <<<<<<< HEAD:Assets/animation/Frank_RPG_2Handed/Assets/Animations/FBX_Animation/Root_Motion/Frank_RPG_2Hand_Combo01_4.FBX.meta
         floatParameter: -20
 =======
+=======
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
         floatParameter: 0
         intParameter: 1
         messageOptions: 0
@@ -605,7 +608,10 @@ ModelImporter:
         objectReferenceParameter: {fileID: 11500000, guid: 446f218fc31e0ed4ebe57e27df2baf47,
           type: 3}
         floatParameter: 0
+<<<<<<< HEAD
 >>>>>>> d2302d987e7cf70649437be4a5dbfcf98eff979e:Assets/Frank_RPG_2Handed/Assets/Animations/FBX_Animation/Root_Motion/Frank_RPG_2Hand_Combo01_4.FBX.meta
+=======
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
         intParameter: 0
         messageOptions: 0
       transformMask: []

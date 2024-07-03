@@ -125,6 +125,7 @@ NavMeshSettings:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &28828360
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,6 +242,8 @@ Transform:
   m_LocalEulerAnglesHint: {x: -169.059, y: 115.036, z: -5.065979}
 =======
 >>>>>>> d2302d987e7cf70649437be4a5dbfcf98eff979e
+=======
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
 --- !u!1 &37652254
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,6 +590,7 @@ WindZone:
   m_GameObject: {fileID: 917297637}
   m_Enabled: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Asset: {fileID: 8926484042661614526, guid: 5581c12b77b52da4ea01ef720f51006f, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
@@ -662,6 +666,8 @@ VFXRenderer:
   m_SortingOrder: 0
 --- !u!4 &530459091
 =======
+=======
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
   m_Mode: 1
   m_Radius: 99.4
   m_WindMain: 1
@@ -669,12 +675,16 @@ VFXRenderer:
   m_WindPulseMagnitude: 0.5
   m_WindPulseFrequency: 0.01
 --- !u!4 &917297639
+<<<<<<< HEAD
 >>>>>>> d2302d987e7cf70649437be4a5dbfcf98eff979e
+=======
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_GameObject: {fileID: 530459088}
   serializedVersion: 2
@@ -696,6 +706,17 @@ Transform:
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 >>>>>>> d2302d987e7cf70649437be4a5dbfcf98eff979e
+=======
+  m_GameObject: {fileID: 917297637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 22.02, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
 --- !u!1 &922513412
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,6 +788,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
 --- !u!1001 &1035834710
 PrefabInstance:
@@ -883,6 +905,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 =======
 >>>>>>> d2302d987e7cf70649437be4a5dbfcf98eff979e
+=======
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
 --- !u!1 &1036112705
 GameObject:
   m_ObjectHideFlags: 0
@@ -1818,6 +1842,7 @@ CapsuleCollider:
   m_Direction: 1
   m_Center: {x: 0, y: 4.65788, z: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &1880764335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1934,6 +1959,8 @@ Transform:
   m_LocalEulerAnglesHint: {x: 81.4, y: 23.367, z: -19.207}
 =======
 >>>>>>> d2302d987e7cf70649437be4a5dbfcf98eff979e
+=======
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
 --- !u!1 &1919406553
 GameObject:
   m_ObjectHideFlags: 0
@@ -6010,6 +6037,7 @@ Transform:
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &8007934092778817681
 GameObject:
   m_ObjectHideFlags: 0
@@ -6126,6 +6154,8 @@ VisualEffect:
       m_Array: []
 =======
 >>>>>>> d2302d987e7cf70649437be4a5dbfcf98eff979e
+=======
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
 --- !u!1 &8015724191236346078
 GameObject:
   m_ObjectHideFlags: 0
