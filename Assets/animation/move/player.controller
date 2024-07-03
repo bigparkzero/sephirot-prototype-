@@ -218,10 +218,14 @@ AnimatorStateMachine:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_Position: {x: 850, y: 30, z: 0}
 =======
     m_Position: {x: 680, y: -20, z: 0}
 >>>>>>> 1994ffb4a4e6fe8c6d0ed218b0edf9e33c0799e0
+=======
+    m_Position: {x: 670, y: -20, z: 0}
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
 =======
     m_Position: {x: 670, y: -20, z: 0}
 >>>>>>> parent of 1994ffb (이펙트 , 루트모션)
@@ -653,10 +657,14 @@ AnimatorStateMachine:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_Position: {x: 690, y: -70, z: 0}
 =======
     m_Position: {x: 730, y: -80, z: 0}
 >>>>>>> 1994ffb4a4e6fe8c6d0ed218b0edf9e33c0799e0
+=======
+    m_Position: {x: 690, y: -80, z: 0}
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
 =======
     m_Position: {x: 690, y: -80, z: 0}
 >>>>>>> parent of 1994ffb (이펙트 , 루트모션)
@@ -1041,6 +1049,7 @@ AnimatorStateTransition:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_TransitionDuration: 0.4649884
   m_TransitionOffset: 0
   m_ExitTime: 0.37267
@@ -1049,6 +1058,11 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.66011894
 >>>>>>> 1994ffb4a4e6fe8c6d0ed218b0edf9e33c0799e0
+=======
+  m_TransitionDuration: 0.32166278
+  m_TransitionOffset: 0
+  m_ExitTime: 0.79379404
+>>>>>>> parent of 1994ffb (이펙트 , 루트모션)
 =======
   m_TransitionDuration: 0.32166278
   m_TransitionOffset: 0
