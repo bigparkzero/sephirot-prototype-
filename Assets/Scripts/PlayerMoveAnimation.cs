@@ -249,7 +249,6 @@ public class PlayerMoveAnimation : MonoBehaviour
     public void playerrotation(float offset)
     {
         transform.rotation = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y + offset, 0.0f);
-        Debug.Log("egfinafd");
     }
 
     #region
