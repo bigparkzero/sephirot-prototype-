@@ -247,8 +247,10 @@ public class Knockback : MonoBehaviour
         }
     }
 
-    private void EndKnockback()
+    public void EndKnockback()
     {
+        knockbackDuration = 0;
+
         an.SetBool("IsKnockbackedFromFront", false);
         an.SetBool("IsKnockbackedFromBack", false);
         an.SetBool("IsHitFromFront", false);

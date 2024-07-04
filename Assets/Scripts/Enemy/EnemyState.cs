@@ -4,7 +4,12 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(Knockback)), RequireComponent(typeof(Animator))]
+// Animation states required : idle, wander, alert, trace, die, goLeft, goRight, backward
+// Animations for other behaviors include in skill effect components. (EnemySkillEffectBase)
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Knockback))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(EnemySkills))]
 public class EnemyState : MonoBehaviour
 {
     public enum State
@@ -21,10 +26,10 @@ public class EnemyState : MonoBehaviour
     [HideInInspector] public GameObject target;
     [HideInInspector] public State currentState = State.Idle;
 
-    [Description("공격 후 대기 등 랜덤 딜레이의 한계치")]
+    [Description("랜덤 딜레이의 한계치")]
     public float delayLimit = 0.8f;
     float delayDuration;
-    bool mustAct;
+    [HideInInspector] public bool mustAct;
 
     [HideInInspector] public Vector3 originPos;
 
@@ -41,20 +46,36 @@ public class EnemyState : MonoBehaviour
     [Description("비전투 중 배회 시의 이동 속도")]
     public float wanderingSpeed = 10f;
     public float movementSpeed = 20f;
+    
+    bool isSideWalkingToRight;
+    float sideWalkDistance;
+    float sideWalkFrontOffset;
+
+    public float backwardDistance = 8f;
+    bool isBackwarding;
 
     NavMeshAgent agent;
-    [HideInInspector] public Knockback knockback;
-    [HideInInspector] public Animator anim;
+    Knockback knockback;
+    Animator anim;
+    EnemySkills skills;
+
+    [HideInInspector] public bool isAttacking;
+
+    public float tracingDistance;   // 적을 쫓아가는 거리. 이 거리보다 멀면 타겟을 향해 이동함.
+    bool isTracingTarget = true;    // 타겟이 tracingDistance보다 멀리 존재할 경우.
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         knockback = GetComponent<Knockback>();
+        anim = GetComponent<Animator>();
+        skills = GetComponent<EnemySkills>();
 
         NavMeshHit hit;
         if (agent.FindClosestEdge(out hit))
         {
             originPos = hit.position;
+            transform.position = originPos;
         }
         else
         {
@@ -71,7 +92,7 @@ public class EnemyState : MonoBehaviour
             return;
         }
 
-        //TODO: 활동반경 + 시야보다 적이 멀어지면 전투 해제 및 복귀. 전투 해제 거리가 이상할 수 있으니 확인 요망.
+        //활동반경 + 시야보다 적이 멀어지면 전투 해제 및 복귀.
         if (activityRange > 0 && target != null && Vector3.Distance(originPos, target.transform.position) > activityRange + sightRange)
         {
             target = null;
@@ -114,6 +135,22 @@ public class EnemyState : MonoBehaviour
         {
             //TODO: special sth이 있으면 딜레이 해제(ex: 체력% 특수기믹 실행 등)
 
+            if (currentState == State.Alert)
+            {
+                if (isBackwarding || Vector3.Distance(transform.position, target.transform.position) <= backwardDistance)
+                {
+                    SmoothBackward(Time.deltaTime);
+                }
+                else if (Vector3.Angle(transform.forward, target.transform.position - transform.position) <= 0.1f)
+                {
+                    SmoothSideWalk(Time.deltaTime);
+                }
+                else
+                {
+                    SmoothLookTarget(Time.deltaTime);
+                }
+            }
+
             delayDuration -= Time.deltaTime;
 
             if (delayDuration <= 0)
@@ -130,86 +167,168 @@ public class EnemyState : MonoBehaviour
             return;
         }
 
-        //공격 쿨타임 중일 경우 대상에게 천천히 회전
-        //if (!isAttacking)
-        {
-            SmoothLookTarget(Time.deltaTime);
-
-            //TODO: Turning Anim
-        }
-
         //상태에 따른 행동
         switch (currentState)
         {
             case State.Idle:
-                if (!mustAct)
-                {
-                    //딜레이 적용
-                    ApplyDelay();
-                    return;
-                }
+                HandleIdleState();
+                break;
+            case State.Wandering:
+                HandleWanderingState();
+                break;
+            case State.Alert:
+                HandleAlertState();
+                break;
+            case State.Returning:
+                HandleReturningState();
+                break;
+        }
+    }
 
-                //시야 내 적 식별. 적이 없으면 배회.
-                if (CheckEnemyInSight())
+    public void ResetState()
+    {
+        knockback.EndKnockback();
+
+        isTracingTarget = true;
+
+        sideWalkDistance = 0;
+        isBackwarding = false;
+        
+        delayDuration = 0;
+    }
+
+    void HandleIdleState()
+    {
+        if (!mustAct)
+        {
+            //딜레이 적용
+            ApplyDelay();
+            return;
+        }
+
+        //시야 내 적 식별. 적이 없으면 배회.
+        if (CheckEnemyInSight())
+        {
+            currentState = State.Alert;
+            mustAct = true;
+        }
+        else
+        {
+            WanderAround();
+        }
+    }
+
+    void HandleWanderingState()
+    {
+        //시야 내 적 식별.
+        if (CheckEnemyInSight())
+        {
+            currentState = State.Alert;
+            mustAct = true;
+            return;
+        }
+
+        //도착하면 딜레이 적용
+        if (agent.remainingDistance < 0.01f)
+        {
+            mustAct = false;
+            currentState = State.Idle;
+
+            //TODO: anim -> Idle
+        }
+    }
+
+    void HandleAlertState()
+    {
+        if (!mustAct)
+        {
+            //딜레이 적용
+            ApplyDelay();
+            return;
+        }
+
+        agent.SetDestination(target.transform.position);
+
+        if (agent.remainingDistance <= tracingDistance)
+        {
+            isTracingTarget = false;
+        }
+
+        if (agent.remainingDistance >= tracingDistance * 1.3f)
+        {
+            isTracingTarget = true;
+        }
+
+        if (!isTracingTarget)
+        {
+            agent.SetDestination(transform.position);
+
+            if (skills.ActivateSkill())
+            {
+                StartSkill();
+            }
+            else
+            {
+                if (isBackwarding || Vector3.Distance(transform.position, target.transform.position) <= backwardDistance)
                 {
-                    currentState = State.Alert;
-                    mustAct = true;
+                    SmoothBackward(Time.deltaTime);
+                }
+                else if (Vector3.Angle(transform.forward, target.transform.position - transform.position) <= 0.1f)
+                {
+                    SmoothSideWalk(Time.deltaTime);
                 }
                 else
                 {
-                    WanderAround();
+                    SmoothLookTarget(Time.deltaTime);
                 }
-
-                break;
-            case State.Wandering:
-                //시야 내 적 식별.
-                if (CheckEnemyInSight())
-                {
-                    currentState = State.Alert;
-                    mustAct = true;
-                    return;
-                }
-
-                //도착하면 딜레이 적용
-                if (Vector3.Distance(transform.position, agent.destination) < 0.01f)
-                {
-                    mustAct = false;
-                    currentState = State.Idle;
-
-                    //TODO: anim -> Idle
-                }
-
-                break;
-            //case State.Delayed: //딜레이 시 여기까지 진입하지 않음.
-            //    break;
-            case State.Alert:
-                if (!mustAct)
-                {
-                    //딜레이 적용
-                    ApplyDelay();
-                    return;
-                }
-
-                //TODO: select skill
-
-                break;
-            //case State.Attacking: //필요 시 공격 중 효과. 상태이상 면역 등은 공격에서 직접 처리함.
-            //    break;
-            //case State.Dead: //사망 시 여기까지 진입하지 않음.
-            //    break;
-            case State.Returning:
-                ReturnToOriginPos();
-
-                //도착하면 Idle & 딜레이 적용
-                if (Vector3.Distance(transform.position, agent.destination) < 0.01f)
-                {
-                    ApplyDelay(0.5f);
-
-                    //TODO: anim -> idle
-                }
-
-                break;
+            }
         }
+    }
+
+    void HandleReturningState()
+    {
+        mustAct = false;
+        isAttacking = false;
+
+        ResetState();
+
+        ReturnToOriginPos();
+
+        //도착하면 Idle & 딜레이 적용
+        if (agent.remainingDistance < 0.01f)
+        {
+            ApplyDelay(0.5f);
+
+            //TODO: anim -> idle
+        }
+    }
+
+    void SmoothBackward(float deltaTime)
+    {
+        if (target == null)
+        {
+            currentState = State.Returning;
+            return;
+        }
+
+        if (isBackwarding)
+        {
+            if (Vector3.Distance(transform.position, target.transform.position) >= backwardDistance * 1.15f)
+            {
+                isBackwarding = false;
+            }
+        }
+
+        Vector3 dir = target.transform.position - transform.position;
+        dir -= Vector3.up * dir.y;
+
+        if (dir.sqrMagnitude < 0.001f) return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(dir);
+
+        agent.Move(-transform.forward * wanderingSpeed * deltaTime);
+
+        //TODO: anim -> backward
     }
 
     void SmoothLookTarget(float deltaTime)
@@ -226,6 +345,38 @@ public class EnemyState : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, SMOOTH_ROTATION_SPEED * deltaTime);
 
         //TODO: anim -> rotate
+    }
+
+    void SmoothSideWalk(float deltaTime)
+    {
+        if (target == null) return;
+
+        // 옆걸음 끝 도달 시 재설정
+        if (sideWalkDistance <= 0)
+        {
+            sideWalkDistance = Random.Range(1f, 4.5f);
+            isSideWalkingToRight = Random.Range(0, 2) == 1;
+            sideWalkFrontOffset = Random.Range(-0.5f, 0.5f);
+        }
+
+        // 옆걸음 동작
+        Vector3 pos = transform.position + (isSideWalkingToRight ? transform.right : -transform.right);
+        pos += transform.forward * sideWalkFrontOffset;
+        agent.Move(pos * wanderingSpeed * deltaTime);
+
+        // 타겟을 향해 회전
+        Vector3 dir = target.transform.position - transform.position;
+        dir -= Vector3.up * dir.y;
+
+        if (dir.sqrMagnitude < 0.001f) return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(dir);
+        transform.rotation = targetRotation;
+
+        // 옆걸음 거리 측정
+        sideWalkDistance -= wanderingSpeed * deltaTime;
+
+        //TODO: anim -> side walk
     }
 
     void ApplyDelay()
@@ -310,5 +461,25 @@ public class EnemyState : MonoBehaviour
         currentState = State.Returning;
 
         //TODO: anim -> walk
+    }
+
+    void StartSkill()
+    {
+        isAttacking = true;
+        currentState = State.Attacking;
+    }
+
+    public void ExitSkill()
+    {
+        isAttacking = false;
+
+        if (target != null)
+        {
+            currentState = State.Alert;
+        }
+        else
+        {
+            currentState = State.Returning;
+        }
     }
 }
