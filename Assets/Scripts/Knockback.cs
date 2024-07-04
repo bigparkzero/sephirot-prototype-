@@ -33,7 +33,7 @@ public class Knockback : MonoBehaviour
     public LayerMask GroundLayers;
     public float Gravity = -60.0f;
 
-    public bool isKnockbackable = true;
+    bool isKnockbackable = true;
 
     bool Grounded
     {
@@ -53,7 +53,7 @@ public class Knockback : MonoBehaviour
     {
         if (!TryGetComponent(out an) || !TryGetComponent(out controller))
         {
-            throw new System.Exception("no animator or controller! knockback component needs both.");
+            throw new System.Exception("No Animator or CharacterController! This component needs both.");
         }
     }
 
@@ -61,11 +61,6 @@ public class Knockback : MonoBehaviour
     void Update()
     {
         //TODO: for test. delete this.
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            isKnockbackedForTest = true;
-        }
-
         if (isKnockbackedForTest)
         {
             isKnockbackedForTest = false;
@@ -260,5 +255,16 @@ public class Knockback : MonoBehaviour
         // 넉백 종료 후 위치 설정(캐릭터 컨트롤러의 위치와 게임오브젝트의 실제 위치가 불일치할 수 있음.)
         Vector3 finalPosition = controller.transform.position;
         transform.position = finalPosition;
+    }
+
+    public void EnableKnockback()
+    {
+        isKnockbackable = true;
+        EndKnockback();
+    }
+
+    public void DisableKnockback()
+    {
+        isKnockbackable = false;
     }
 }

@@ -1,10 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-[SerializeField]
+[Serializable]
 public class EnemySkill
 {
     public string skillName;
@@ -94,7 +94,7 @@ public class EnemySkills : MonoBehaviour
         string selectedSkill = null;
         if (otherSkills.Count > 0)
         {
-            selectedSkill = otherSkills[Random.Range(0, otherSkills.Count)];
+            selectedSkill = otherSkills[UnityEngine.Random.Range(0, otherSkills.Count)];
         }
         else if (availableSkills.Contains(lastSkill))
         {

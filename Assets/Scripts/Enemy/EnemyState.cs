@@ -7,7 +7,7 @@ using UnityEngine.AI;
 // Animation states required : idle, wander, alert, trace, die, goLeft, goRight, backward
 // Animations for other behaviors include in skill effect components. (EnemySkillEffectBase)
 [RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(Knockback))]
+//[RequireComponent(typeof(Knockback))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(EnemySkills))]
 public class EnemyState : MonoBehaviour
@@ -24,19 +24,21 @@ public class EnemyState : MonoBehaviour
     }
 
     [HideInInspector] public GameObject target;
-    [HideInInspector] public State currentState = State.Idle;
+    //[HideInInspector]
+    public State currentState = State.Idle;
 
     [Description("랜덤 딜레이의 한계치")]
     public float delayLimit = 0.8f;
     float delayDuration;
-    [HideInInspector] public bool mustAct;
+    float currentDelayCooldown = 8f;
+    float DELAY_COOLDOWN = 8f;
 
     [HideInInspector] public Vector3 originPos;
 
     [Description("비전투 상태에서 배회하는지 여부")]
     public bool IsWanderable = true;
     [Description("활동 반경. -1일 경우 배회하지 않고, 전투 시작 시 풀리지 않음")]
-    public float activityRange = -1f;
+    public float activityRange = 30f;
 
     float SMOOTH_ROTATION_SPEED = 1.2f; //스킬 쿨타임을 기다리는 동안 타겟을 향해 회전하는 속도.
 
@@ -51,11 +53,12 @@ public class EnemyState : MonoBehaviour
     float sideWalkDistance;
     float sideWalkFrontOffset;
 
+    [Description("타겟과 너무 가까울 경우 물러나는 속도")]
     public float backwardDistance = 8f;
     bool isBackwarding;
 
     NavMeshAgent agent;
-    Knockback knockback;
+    //Knockback knockback;
     Animator anim;
     EnemySkills skills;
 
@@ -67,15 +70,16 @@ public class EnemyState : MonoBehaviour
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        knockback = GetComponent<Knockback>();
+        //knockback = GetComponent<Knockback>();
         anim = GetComponent<Animator>();
         skills = GetComponent<EnemySkills>();
 
         NavMeshHit hit;
-        if (agent.FindClosestEdge(out hit))
+        if (NavMesh.SamplePosition(transform.position, out hit, 1000f, NavMesh.AllAreas))
         {
             originPos = hit.position;
             transform.position = originPos;
+            agent.transform.position = originPos;
         }
         else
         {
@@ -92,6 +96,8 @@ public class EnemyState : MonoBehaviour
             return;
         }
 
+        if (currentDelayCooldown > 0) currentDelayCooldown -= Time.deltaTime;
+
         //활동반경 + 시야보다 적이 멀어지면 전투 해제 및 복귀.
         if (activityRange > 0 && target != null && Vector3.Distance(originPos, target.transform.position) > activityRange + sightRange)
         {
@@ -100,42 +106,43 @@ public class EnemyState : MonoBehaviour
         }
 
         //타겟이 사라지면 복귀.
-        if (target == null)
+        if (currentState == State.Alert && target == null)
         {
             currentState = State.Returning;
         }
 
         //상태이상 처리
-        if (knockback != null && knockback.IsKnockbacked)
-        {
-            //TODO: special sth이 있으면 딜레이, 상태이상 해제(ex: 체력% 특수기믹 실행 등)
-
-            if (delayDuration > 0)
-            {
-                delayDuration -= Time.deltaTime;
-
-                if (delayDuration <= 0)
-                {
-                    if (target != null)
-                    {
-                        currentState = State.Alert;
-                    }
-                    else
-                    {
-                        currentState = State.Returning;
-                    }
-                }
-            }
-
-            return;
-        }
+        //if (knockback != null && knockback.IsKnockbacked)
+        //{
+        //    //TODO: special sth이 있으면 딜레이, 상태이상 해제(ex: 체력% 특수기믹 실행 등)
+        //
+        //    if (delayDuration > 0)
+        //    {
+        //        delayDuration -= Time.deltaTime;
+        //
+        //        if (delayDuration <= 0)
+        //        {
+        //            if (target != null)
+        //            {
+        //                currentState = State.Alert;
+        //            }
+        //            else
+        //            {
+        //                currentState = State.Returning;
+        //            }
+        //        }
+        //    }
+        //
+        //    return;
+        //}
 
         //딜레이 처리
         if (delayDuration > 0)
         {
             //TODO: special sth이 있으면 딜레이 해제(ex: 체력% 특수기믹 실행 등)
+            delayDuration -= Time.deltaTime;
 
-            if (currentState == State.Alert)
+            if (target != null)
             {
                 if (isBackwarding || Vector3.Distance(transform.position, target.transform.position) <= backwardDistance)
                 {
@@ -150,8 +157,16 @@ public class EnemyState : MonoBehaviour
                     SmoothLookTarget(Time.deltaTime);
                 }
             }
-
-            delayDuration -= Time.deltaTime;
+            else
+            {
+                //시야 내 적 식별.
+                if (CheckEnemyInSight())
+                {
+                    currentState = State.Alert;
+                    delayDuration = 0;
+                    currentDelayCooldown = DELAY_COOLDOWN;
+                }
+            }
 
             if (delayDuration <= 0)
             {
@@ -161,7 +176,7 @@ public class EnemyState : MonoBehaviour
                 }
                 else
                 {
-                    currentState = State.Returning;
+                    currentState = State.Idle;
                 }
             }
             return;
@@ -187,7 +202,7 @@ public class EnemyState : MonoBehaviour
 
     public void ResetState()
     {
-        knockback.EndKnockback();
+        //knockback.EndKnockback();
 
         isTracingTarget = true;
 
@@ -197,9 +212,16 @@ public class EnemyState : MonoBehaviour
         delayDuration = 0;
     }
 
+    void ApplyDelay()
+    {
+        delayDuration = Random.Range(0, delayLimit);
+        currentState = State.Delayed;
+        currentDelayCooldown = DELAY_COOLDOWN;
+    }
+
     void HandleIdleState()
     {
-        if (!mustAct)
+        if (currentDelayCooldown <= 0)
         {
             //딜레이 적용
             ApplyDelay();
@@ -210,12 +232,31 @@ public class EnemyState : MonoBehaviour
         if (CheckEnemyInSight())
         {
             currentState = State.Alert;
-            mustAct = true;
+            currentDelayCooldown = DELAY_COOLDOWN;
         }
         else
         {
             WanderAround();
         }
+    }
+
+    void WanderAround()
+    {
+        if (activityRange < 0) return;
+
+        agent.stoppingDistance = 0f;
+
+        Vector3 desti = originPos;
+
+        float xOffset = Random.Range(-activityRange, activityRange);
+        float zOffset = Random.Range(-activityRange, activityRange);
+
+        desti += Vector3.right * xOffset + Vector3.forward * zOffset;
+
+        agent.SetDestination(desti);
+
+        currentState = State.Wandering;
+        //TODO: anim -> walk
     }
 
     void HandleWanderingState()
@@ -224,15 +265,14 @@ public class EnemyState : MonoBehaviour
         if (CheckEnemyInSight())
         {
             currentState = State.Alert;
-            mustAct = true;
+            currentDelayCooldown = DELAY_COOLDOWN;
             return;
         }
 
-        //도착하면 딜레이 적용
-        if (agent.remainingDistance < 0.01f)
+        if (Vector3.Distance(transform.position, agent.destination) < 0.01f)
         {
-            mustAct = false;
             currentState = State.Idle;
+            ApplyDelay();
 
             //TODO: anim -> Idle
         }
@@ -240,7 +280,7 @@ public class EnemyState : MonoBehaviour
 
     void HandleAlertState()
     {
-        if (!mustAct)
+        if (currentDelayCooldown <= 0)
         {
             //딜레이 적용
             ApplyDelay();
@@ -249,12 +289,12 @@ public class EnemyState : MonoBehaviour
 
         agent.SetDestination(target.transform.position);
 
-        if (agent.remainingDistance <= tracingDistance)
+        if (Vector3.Distance(transform.position, agent.destination) <= tracingDistance)
         {
             isTracingTarget = false;
         }
 
-        if (agent.remainingDistance >= tracingDistance * 1.3f)
+        if (Vector3.Distance(transform.position, agent.destination) >= tracingDistance * 1.3f)
         {
             isTracingTarget = true;
         }
@@ -287,7 +327,9 @@ public class EnemyState : MonoBehaviour
 
     void HandleReturningState()
     {
-        mustAct = false;
+        //TODO: anim -> action 0
+
+        currentDelayCooldown = DELAY_COOLDOWN;
         isAttacking = false;
 
         ResetState();
@@ -295,9 +337,10 @@ public class EnemyState : MonoBehaviour
         ReturnToOriginPos();
 
         //도착하면 Idle & 딜레이 적용
-        if (agent.remainingDistance < 0.01f)
+        if (Vector3.Distance(transform.position, agent.destination) < 0.5f)
         {
-            ApplyDelay(0.5f);
+            currentState = State.Idle;
+            ApplyDelay();
 
             //TODO: anim -> idle
         }
@@ -379,20 +422,6 @@ public class EnemyState : MonoBehaviour
         //TODO: anim -> side walk
     }
 
-    void ApplyDelay()
-    {
-        delayDuration = Random.Range(0, delayLimit);
-        currentState = State.Delayed;
-        mustAct = true;
-    }
-
-    void ApplyDelay(float time)
-    {
-        delayDuration = time;
-        currentState = State.Delayed;
-        mustAct = true;
-    }
-
     bool CheckEnemyInSight()
     {
         List<GameObject> possibleTargets = new();
@@ -435,32 +464,12 @@ public class EnemyState : MonoBehaviour
         return true;
     }
 
-    void WanderAround()
-    {
-        if (activityRange < 0) return;
-
-        agent.stoppingDistance = 0f;
-
-        Vector3 desti = originPos;
-
-        float xOffset = Random.Range(-activityRange, activityRange);
-        float zOffset = Random.Range(-activityRange, activityRange);
-
-        desti += Vector3.right * zOffset + Vector3.forward * zOffset;
-
-        currentState = State.Wandering;
-
-        //TODO: anim -> walk
-    }
-
     void ReturnToOriginPos()
     {
         agent.SetDestination(originPos);
         agent.stoppingDistance = 0f;
 
-        currentState = State.Returning;
-
-        //TODO: anim -> walk
+        //TODO: anim -> wander
     }
 
     void StartSkill()
@@ -481,5 +490,12 @@ public class EnemyState : MonoBehaviour
         {
             currentState = State.Returning;
         }
+    }
+
+    public void Die()
+    {
+        currentState = State.Dead;
+
+        //TODO: anim -> die
     }
 }
