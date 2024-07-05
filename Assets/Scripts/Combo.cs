@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Combo : MonoBehaviour
 {
     Animator an;
     public List<GameObject> weapons;
+
+    public Slider combovalueSlider;
+    public float combomaxValue;
     private void Awake()
     {
         an = GetComponent<Animator>();
+        combovalueSlider.maxValue = combomaxValue;
+        combovalueSlider.value = combomaxValue;
     }
     private void Update()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
             an.SetTrigger("attack");
@@ -32,11 +37,15 @@ public class Combo : MonoBehaviour
 
     public void changeWeapon(int weaponID)
     {
-        for (int i = 0; i < weapons.Count; i++)
+        if (combovalueSlider.value >= 20)
         {
-            weapons[i].SetActive(false);
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                weapons[i].SetActive(false);
+            }
+            weapons[weaponID].SetActive(true);
+            an.SetTrigger("changeweapon");
+            combovalueSlider.value -= 20;
         }
-        weapons[weaponID].SetActive(true);
-        an.SetTrigger("changeweapon");
     }
 }

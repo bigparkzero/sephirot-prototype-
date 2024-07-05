@@ -15,4 +15,8 @@ public class ComboReset : StateMachineBehaviour
             animator.ResetTrigger(triggerName[i]);
         }
     }
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.GetComponent<Combo>().combovalueSlider.value += 1;
+    }
 }
