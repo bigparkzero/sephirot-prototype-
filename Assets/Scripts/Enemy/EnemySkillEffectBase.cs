@@ -9,6 +9,7 @@ public abstract class EnemySkillEffectBase : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isOn;
     [HideInInspector] public float durationTimer;
+    [HideInInspector] public GameObject owner;
     public float DURATION;
     
     public GameObject colliderObject;
@@ -36,7 +37,10 @@ public abstract class EnemySkillEffectBase : MonoBehaviour
         durationTimer = DURATION;
     }
 
-    public abstract void OnPlaying();
+    public virtual void OnPlaying()
+    {
+
+    }
 
     public virtual void OnExit(bool isForcedStop)
     {

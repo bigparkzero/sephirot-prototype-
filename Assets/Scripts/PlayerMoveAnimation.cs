@@ -118,6 +118,7 @@ public class PlayerMoveAnimation : MonoBehaviour
         JumpAndGravity();
         if (GroundedCheck())
         {
+            an.SetBool("Jump", false);
             an.SetBool(_animIDGrounded, Grounded);
         }
         Move();
@@ -319,8 +320,7 @@ public class PlayerMoveAnimation : MonoBehaviour
         float targetY = targetPosition.y;
         float heightDifference = targetY - startY;
 
-        //TODO: dashing anim? 점프 애니메이션 움찔거림 문제.
-        if (GroundedCheck())
+        if (!GroundedCheck())
         {
             an.SetBool(_animIDJump, true);
         }

@@ -1,3 +1,4 @@
+using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -89,6 +90,11 @@ public class Knockback : MonoBehaviour
         if (currentImmuneTime > 0)
         {
             return;
+        }
+
+        if (TryGetComponent(out AIPath aiPath))
+        {
+            aiPath.isStopped = true;
         }
 
         if (dir == Vector3.zero || power == 0)
@@ -253,8 +259,12 @@ public class Knockback : MonoBehaviour
         knockbackDirection = Vector3.zero;
 
         // 넉백 종료 후 위치 설정(캐릭터 컨트롤러의 위치와 게임오브젝트의 실제 위치가 불일치할 수 있음.)
-        Vector3 finalPosition = controller.transform.position;
-        transform.position = finalPosition;
+        transform.position = controller.transform.position;
+
+        if (TryGetComponent(out AIPath aiPath))
+        {
+            aiPath.isStopped = false;
+        }
     }
 
     public void EnableKnockback()
