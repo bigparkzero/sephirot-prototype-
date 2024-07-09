@@ -1,35 +1,12 @@
-/*
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
 public class VFXController : MonoBehaviour
 {
-    public VisualEffect[] visualEffect;
-    private void Start()
-    {
-     
-
-    }
-    public void PlayVFX(int a)
-    {
-        visualEffect[a].Play();
-      
-    }
-
-    public void StopVFX(int a)
-    {
-        visualEffect[a].Stop();
-    }
-   
-}
-*/
-using UnityEngine;
-using UnityEngine.VFX;
-
-public class VFXController : MonoBehaviour
-{
     public VisualEffect visualEffect;
+    public List<ParticleSystem> Particle;
 
     void Start()
     {
@@ -38,8 +15,6 @@ public class VFXController : MonoBehaviour
             visualEffect = GetComponent<VisualEffect>();
         }
     }
-
-    // 애니메이션 이벤트를 통해 호출되는 함수
     public void PlayVFX(string jsonParams)
     {
         if (!string.IsNullOrEmpty(jsonParams))
@@ -48,14 +23,25 @@ public class VFXController : MonoBehaviour
             Vector3 position = new Vector3(parameters.positionX, parameters.positionY, parameters.positionZ);
             Vector3 rotation = new Vector3(parameters.rotationX, parameters.rotationY, parameters.rotationZ);
 
-            // 이펙트의 위치와 회전을 설정
+            //visualEffect.transform.localScale = new Vector3(parameters.scale, parameters.scale,parameters.scale);
             visualEffect.transform.position = position + transform.position;
             visualEffect.transform.eulerAngles = rotation + transform.eulerAngles;
             visualEffect.Play();
         }
     }
 
-    // 데이터 직렬화 구조체
+    public void PlayParticle(int particleID, string jsonParams)
+    {
+        VFXParams parameters = JsonUtility.FromJson<VFXParams>(jsonParams);
+        Vector3 position = new Vector3(parameters.positionX, parameters.positionY, parameters.positionZ);
+        Vector3 rotation = new Vector3(parameters.rotationX, parameters.rotationY, parameters.rotationZ);
+
+        Particle[particleID].transform.localScale = new Vector3(parameters.scale, parameters.scale, parameters.scale);
+        Particle[particleID].transform.position = position + transform.position;
+        Particle[particleID].transform.eulerAngles = rotation + transform.eulerAngles;
+        Particle[particleID].Play();
+    }
+
     [System.Serializable]
     public struct VFXParams
     {
@@ -65,9 +51,9 @@ public class VFXController : MonoBehaviour
         public float rotationX;
         public float rotationY;
         public float rotationZ;
+        public float scale;
     }
 
-    // 이펙트를 중지하는 함수
     public void StopVFX()
     {
         if (visualEffect != null)

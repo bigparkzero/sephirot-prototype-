@@ -15,8 +15,8 @@ public class PlayerWireTargetRadar : MonoBehaviour
 
     Camera mainCam;
 
-    float RADAR_FAR_RANGE = 45f;
-    float RADAR_MIN_RANGE = 6f;
+    float RADAR_FAR_RANGE = 80f;
+    float RADAR_MIN_RANGE = 10f;
 
     List<Collider> detectedCols = new List<Collider>();
     List<Collider> visibleCols = new List<Collider>();
@@ -30,15 +30,6 @@ public class PlayerWireTargetRadar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            Time.timeScale = 0;
-        }
-        if (Input.GetKey(KeyCode.Return))
-        {
-            Time.timeScale = 1;
-        }
-
         detectedCols.Clear();
 
         foreach (Transform images in canvas_WireMarkers.transform)
@@ -46,6 +37,8 @@ public class PlayerWireTargetRadar : MonoBehaviour
             Destroy(images.gameObject);
         }
 
+        //TODO: 현재 카메라의 Frustum을 가져와서 충돌 체크를 하는데, 그냥 플레이어에서 대상을 향한 벡터와 forward를 비교해서 특정 각도 이내를 대상으로 하는게 맞는듯.
+        //지금 알고리즘으로는 대각선으로 더 멀리 감지하는 문제가 있음.
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCam);
 
         Collider[] cols = Physics.OverlapSphere(mainCam.transform.position, RADAR_FAR_RANGE, LayerMask.GetMask("WireTarget"));
@@ -54,6 +47,10 @@ public class PlayerWireTargetRadar : MonoBehaviour
         {
             float distance = Vector3.Distance(go_Player.transform.position, col.transform.position);
             if (distance > RADAR_FAR_RANGE || distance < RADAR_MIN_RANGE) continue;
+
+            //등뒤의 대상은 지정되지 않음.
+            float playerDirToTarget = Vector3.Dot(go_Player.transform.forward, col.transform.position - go_Player.transform.position);
+            if (playerDirToTarget <= 0) continue;
 
             if (GeometryUtility.TestPlanesAABB(planes, col.bounds))
             {
@@ -80,7 +77,7 @@ public class PlayerWireTargetRadar : MonoBehaviour
             CreateMarker(pos, screenPos);
         }
 
-        //closest marker has a special visual indicator.
+        //TODO: closest marker has a special visual indicator.
         //while fight, only draw closest marker.
     }
 

@@ -1,4 +1,5 @@
-
+using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -69,6 +70,14 @@ public class PlayerMoveAnimation : MonoBehaviour
     public Vector2 move;
     public bool sprint;
     public Vector2 look;
+
+    //=====
+    [HideInInspector]
+    public bool isWireActivated;
+    float WIRE_DASH_SPEED = 45f;
+    float WIRE_DASH_JUMP_HEIGHT = 1f;
+
+    Knockback knockback;
 
     private void Awake()
     {
@@ -240,6 +249,81 @@ public class PlayerMoveAnimation : MonoBehaviour
             an.SetTrigger("roll");
         }
     }
+
+    public void WireDash(WireTarget target)
+    {
+        StartCoroutine(PerformWireDash(target));
+    }
+
+    IEnumerator PerformWireDash(WireTarget wireTarget)
+    {
+        if (wireTarget.dashPoint == null || wireTarget.dashPoint.Length <= 0)
+        {
+            throw new System.Exception("WireTarget has no DashPoint! Please check WireTarget DashPoint.");
+        }
+
+        float shortest = float.MaxValue;
+        Transform target = null;
+        foreach (var dashPoint in wireTarget.dashPoint)
+        {
+            float dist = Vector3.Distance(dashPoint.position, transform.position);
+            if (dist < shortest)
+            {
+                shortest = dist;
+                target = dashPoint;
+            }
+        }
+
+        if (target == null)
+        {
+            throw new System.Exception("something wrong with PlayerMoveAnimation.PerformWireDash() coroutine's targeting. no target is selected.");
+        }
+
+        Vector3 targetPosition = target.position;
+
+        Vector3 startPosition = transform.position;
+        float distance = Vector3.Distance(startPosition, targetPosition);
+        float dashTime = distance / WIRE_DASH_SPEED;
+
+        float elapsedTime = 0;
+
+        float startY = transform.position.y;
+        float targetY = targetPosition.y;
+        float heightDifference = targetY - startY;
+
+        //TODO: dashing anim? 점프 애니메이션 움찔거림 문제.
+        
+        /*
+        if (GroundedCheck())
+        {
+            an.SetBool(_animIDJump, true);
+        }
+        */
+        while (elapsedTime < dashTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float elapsedTimeRate = Mathf.Min(elapsedTime / dashTime, 1);
+
+            float height = Mathf.Sin(Mathf.PI * elapsedTimeRate) * WIRE_DASH_JUMP_HEIGHT + Mathf.Lerp(startY, targetY, elapsedTimeRate);
+            Vector3 currentPos = Vector3.Lerp(startPosition, targetPosition, elapsedTimeRate);
+            currentPos.y = height;
+
+            _controller.Move(currentPos - transform.position);
+
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+        _controller.Move(Vector3.zero);
+
+        Physics.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Enemy"), false);
+        an.SetBool("IsWireDashing", false);
+        isWireActivated = false;
+    }
+
+
+
+
     public void applyRootMotion(int a)
     {
         //an.applyRootMotion = a == 1 ? true : false;
