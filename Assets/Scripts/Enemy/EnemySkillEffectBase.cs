@@ -9,8 +9,8 @@ public abstract class EnemySkillEffectBase : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isOn;
     [HideInInspector] public float durationTimer;
-    [HideInInspector] public GameObject owner;
-    public float DURATION;
+    [HideInInspector] public EnemyBehavior owner;
+    [HideInInspector] public float DURATION;
     
     public GameObject colliderObject;
 
@@ -19,15 +19,15 @@ public abstract class EnemySkillEffectBase : MonoBehaviour
         if (isOn)
         {
             OnPlaying();
-        }
 
-        durationTimer -= Time.deltaTime;
+            durationTimer -= Time.deltaTime;
 
-        if (durationTimer <= 0)
-        {
-            durationTimer = 0;
-            isOn = false;
-            OnExit(false);
+            if (durationTimer <= 0)
+            {
+                durationTimer = 0;
+                isOn = false;
+                OnExit(false);
+            }
         }
     }
 

@@ -281,7 +281,15 @@ namespace BehaviorTree
 
         public override BTNodeState Execute()
         {
-            return _enemyBehavior.skills.PrepareSkill() ? BTNodeState.SUCCESS : BTNodeState.FAILURE;
+            bool canAttack = _enemyBehavior.skills.PrepareSkill();
+
+            if (canAttack)
+            {
+                _enemyBehavior.tracingDistance = _enemyBehavior.skills.Range;
+                return BTNodeState.SUCCESS;
+            }
+
+            return BTNodeState.FAILURE;
         }
     }
 
@@ -477,7 +485,7 @@ namespace BehaviorTree
             Vector3 dir = (_enemyBehavior.target.transform.position - _enemyBehavior.transform.position).normalized;
             dir -= Vector3.up * dir.y;
 
-            if (distance < _enemyBehavior.tracingDistance * 0.6f)
+            if (distance < _enemyBehavior.tracingDistance * 0.3f)
             {
                 _aiPath.enableRotation = false;
                 _aiPath.maxSpeed = _enemyBehavior.backwardSpeed;
@@ -510,7 +518,7 @@ namespace BehaviorTree
                 _enemyBehavior.isSideWalking = true;
 
                 int right = Random.Range(0, 2) == 1 ? 1 : -1;
-                float sideDist = Random.Range(3f, 5.5f);
+                float sideDist = Random.Range(5.5f, 10f);
                 Vector3 validPosition = GetClosestValidPosition(_enemyBehavior.transform.position + _enemyBehavior.transform.right * (sideDist * right));
 
                 _enemyBehavior.SetDestination(validPosition);
@@ -562,7 +570,6 @@ namespace BehaviorTree
         {
             _aiPath.enableRotation = true;
 
-            _enemyBehavior.EndMovement();
             _enemyBehavior.Attack();
 
             return BTNodeState.SUCCESS;

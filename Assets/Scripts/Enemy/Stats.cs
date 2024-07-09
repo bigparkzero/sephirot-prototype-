@@ -1,11 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
+    [SerializeField]
+    //[ReadOnly]
     float hp;
     public float maxHP = -1;
+
+    public float HP
+    {
+        get
+        {
+            return hp;
+        }
+    }
 
     public bool IsDead
     {

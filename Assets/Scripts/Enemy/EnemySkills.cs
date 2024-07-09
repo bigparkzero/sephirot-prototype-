@@ -9,7 +9,7 @@ public class EnemySkill
 {
     public string skillName;
 
-    public GameObject effectObject;
+    public GameObject skillObject;
 
     [HideInInspector] public float cooldownTimer;
     [InspectorName("Skill Cooldown")] public float baseCooldown;
@@ -35,6 +35,21 @@ public class EnemySkills : MonoBehaviour
 
     string selectedSkill;
 
+    public float Range
+    {
+        get
+        {
+            if (dic_skills.ContainsKey(selectedSkill))
+            {
+                return dic_skills[selectedSkill].First().range;
+            }
+            else
+            {
+                return behavior.tracingDistanceOrigin;
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,13 +63,13 @@ public class EnemySkills : MonoBehaviour
             {
                 throw new Exception("the 'DURATION' variable in EnemySkill of EnemySkills component must be greater than 0. Please check inspector values of this GameObject(" + gameObject.name + ")");
             }
-            if (skill.effectObject.TryGetComponent(out EnemySkillEffectBase effect))
+            if (skill.skillObject.TryGetComponent(out EnemySkillEffectBase effect))
             {
                 effect.skillName = skill.skillName;
                 effect.skills = this;
                 effect.anim = anim;
                 effect.DURATION = skill.DURATION;
-                effect.owner = gameObject;
+                effect.owner = behavior;
             }
             else
             {
@@ -95,7 +110,7 @@ public class EnemySkills : MonoBehaviour
 
         List<string> availableSkills = dic_skills.Values
             .SelectMany(skillList => skillList)
-            .Where(skill => skill.cooldownTimer <= 0 && distance <= skill.range)
+            .Where(skill => skill.cooldownTimer <= 0 && distance <= skill.range * 1.5f)
             .Select(skill => skill.skillName)
             .ToList();
 
@@ -133,7 +148,7 @@ public class EnemySkills : MonoBehaviour
         lastSkill = selectedSkill;
         skillIndex = 0;
 
-        if (skillToActivate.effectObject.TryGetComponent(out EnemySkillEffectBase effect))
+        if (skillToActivate.skillObject.TryGetComponent(out EnemySkillEffectBase effect))
         {
             effect.OnActivate();
         }
@@ -150,7 +165,7 @@ public class EnemySkills : MonoBehaviour
 
         if (skillToActivate == null) throw new System.Exception("No chain skill :" + lastSkill + ", index : " + skillIndex);
 
-        if (skillToActivate.effectObject.TryGetComponent(out EnemySkillEffectBase effect))
+        if (skillToActivate.skillObject.TryGetComponent(out EnemySkillEffectBase effect))
         {
             effect.OnActivate();
         }
@@ -169,7 +184,7 @@ public class EnemySkills : MonoBehaviour
     {
         EnemySkill currentSkill = dic_skills[lastSkill][skillIndex];
 
-        if (currentSkill.effectObject.TryGetComponent(out EnemySkillEffectBase effect))
+        if (currentSkill.skillObject.TryGetComponent(out EnemySkillEffectBase effect))
         {
             effect.isOn = false;
             effect.durationTimer = 0;

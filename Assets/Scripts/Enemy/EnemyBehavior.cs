@@ -47,6 +47,7 @@ public class EnemyBehavior : MonoBehaviour
     public float sightRange = 30f;
 
     public float tracingDistance = 10f;
+    [HideInInspector] public float tracingDistanceOrigin;
     #endregion
 
     #region Movement
@@ -78,11 +79,13 @@ public class EnemyBehavior : MonoBehaviour
         behaviorRoot = GenerateBehaviorTree();
         #endregion
 
-        #region Save Origin Position
+        #region Save Origin Values
         NNInfo nearestNode = AstarPath.active.GetNearest(transform.position);
         Vector3 validPosition = nearestNode.position;
         aiPath.Teleport(validPosition);
         originPos = validPosition;
+
+        tracingDistanceOrigin = tracingDistance;
         #endregion
 
         #region Instantiate GameObject for indicate Destination
@@ -148,7 +151,7 @@ public class EnemyBehavior : MonoBehaviour
             EndMovement();
             transform.rotation = rotationWhenKnockbackStarted;
         }
-        else if (target != null)
+        else if (target != null && !isAttacking)
         {
             Vector3 dir = (target.transform.position - transform.position).normalized;
             dir -= Vector3.up * dir.y;
@@ -331,10 +334,10 @@ public class EnemyBehavior : MonoBehaviour
     public void Die()
     {
         //TODO: ragdoll, shader
-        anim.SetBool("IsDead", true);
+        CancelAttack();
+        EndMovement();
 
-        desti.SetParent(transform);
-        desti.position = transform.position;
+        anim.SetBool("IsDead", true);
 
         isDead = true;
     }
@@ -398,7 +401,7 @@ public class EnemyBehavior : MonoBehaviour
             isWandering = false;
             anim.SetBool("IsWandering", false);
 
-            wanderingCooldown = Random.Range(1f, 4f);
+            wanderingCooldown = Random.Range(4f, 8f);
         }
 
         desti.SetParent(transform);
