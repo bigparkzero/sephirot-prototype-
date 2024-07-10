@@ -1,8 +1,11 @@
+using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//TODO: down 상태 추가해야함.
+//경직 시간 너무 길면 경직 모션 두번 재생되는 등 이상현상. 경직같은거 최대 시간 정해야할듯.
 public class Knockback : MonoBehaviour
 {
     CharacterController controller;
@@ -31,6 +34,8 @@ public class Knockback : MonoBehaviour
     public LayerMask GroundLayers;
     public float Gravity = -60.0f;
 
+    bool isKnockbackable = true;
+
     bool Grounded
     {
         get
@@ -49,7 +54,7 @@ public class Knockback : MonoBehaviour
     {
         if (!TryGetComponent(out an) || !TryGetComponent(out controller))
         {
-            throw new System.Exception("no animator or controller! knockback component needs both.");
+            throw new System.Exception("No Animator or CharacterController! This component needs both.");
         }
     }
 
@@ -57,11 +62,6 @@ public class Knockback : MonoBehaviour
     void Update()
     {
         //TODO: for test. delete this.
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            isKnockbackedForTest = true;
-        }
-
         if (isKnockbackedForTest)
         {
             isKnockbackedForTest = false;
@@ -90,6 +90,11 @@ public class Knockback : MonoBehaviour
         if (currentImmuneTime > 0)
         {
             return;
+        }
+
+        if (TryGetComponent(out AIPath aiPath))
+        {
+            aiPath.isStopped = true;
         }
 
         if (dir == Vector3.zero || power == 0)
@@ -146,7 +151,7 @@ public class Knockback : MonoBehaviour
         }
 
         //5 이상 밀려나면 넉백. 아니면 경직.
-        if (power > 5f)
+        if (isKnockbackable && power > 5f)
         {
             if (isFromBack)
             {
@@ -243,8 +248,10 @@ public class Knockback : MonoBehaviour
         }
     }
 
-    private void EndKnockback()
+    public void EndKnockback()
     {
+        knockbackDuration = 0;
+
         an.SetBool("IsKnockbackedFromFront", false);
         an.SetBool("IsKnockbackedFromBack", false);
         an.SetBool("IsHitFromFront", false);
@@ -252,7 +259,22 @@ public class Knockback : MonoBehaviour
         knockbackDirection = Vector3.zero;
 
         // 넉백 종료 후 위치 설정(캐릭터 컨트롤러의 위치와 게임오브젝트의 실제 위치가 불일치할 수 있음.)
-        Vector3 finalPosition = controller.transform.position;
-        transform.position = finalPosition;
+        transform.position = controller.transform.position;
+
+        if (TryGetComponent(out AIPath aiPath))
+        {
+            aiPath.isStopped = false;
+        }
+    }
+
+    public void EnableKnockback()
+    {
+        isKnockbackable = true;
+        EndKnockback();
+    }
+
+    public void DisableKnockback()
+    {
+        isKnockbackable = false;
     }
 }
