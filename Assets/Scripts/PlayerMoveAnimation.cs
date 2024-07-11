@@ -187,7 +187,6 @@ public class PlayerMoveAnimation : MonoBehaviour
             Vector3 camAngles = _mainCamera.transform.eulerAngles;
             _cinemachineTargetPitch = camAngles.x > TopClamp ? camAngles.x - 360 : camAngles.x;
             _cinemachineTargetYaw = camAngles.y;
-            print(camAngles);
         }
         else
         {
@@ -234,6 +233,7 @@ public class PlayerMoveAnimation : MonoBehaviour
                 }
             }
         }
+        
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
@@ -250,7 +250,7 @@ public class PlayerMoveAnimation : MonoBehaviour
     
     public void LookAtTarget()
     {
-        transform.rotation = Quaternion.Euler(0,_mainCamera.transform.rotation.y,0);
+        transform.rotation = Quaternion.Euler(0,_mainCamera.transform.eulerAngles.y,0);
     }
     private void JumpAndGravity()
     {

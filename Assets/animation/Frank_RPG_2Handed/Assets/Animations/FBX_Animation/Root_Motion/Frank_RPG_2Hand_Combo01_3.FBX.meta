@@ -592,12 +592,20 @@ ModelImporter:
         floatParameter: 0
         intParameter: 2
         messageOptions: 0
-      - time: 0
-        functionName: playerrotation
+      - time: 0.41071427
+        functionName: OnEnableAttackCollider
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 446f218fc31e0ed4ebe57e27df2baf47,
           type: 3}
-        floatParameter: 39.6
+        floatParameter: 0
+        intParameter: 1
+        messageOptions: 0
+      - time: 0.6096307
+        functionName: OnEnableAttackCollider
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 446f218fc31e0ed4ebe57e27df2baf47,
+          type: 3}
+        floatParameter: 0
         intParameter: 0
         messageOptions: 0
       transformMask: []

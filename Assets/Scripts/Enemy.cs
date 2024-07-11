@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public float offset;
     public GameObject targetPos;   
 }

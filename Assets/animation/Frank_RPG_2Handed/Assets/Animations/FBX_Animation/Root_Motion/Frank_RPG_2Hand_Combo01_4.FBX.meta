@@ -587,6 +587,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.24999999
+        functionName: OnEnableAttackCollider
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 446f218fc31e0ed4ebe57e27df2baf47,
+          type: 3}
+        floatParameter: 0
+        intParameter: 1
+        messageOptions: 0
       - time: 0.2742475
         functionName: PlayVFX
         data: '{"positionX":0.0,"positionY":3.2,"positionZ":0.0,"rotationX":-70,"rotationY":70,"rotationZ":-280} '
@@ -595,12 +603,12 @@ ModelImporter:
         floatParameter: 0
         intParameter: 3
         messageOptions: 0
-      - time: 0
-        functionName: playerrotation
+      - time: 0.44891644
+        functionName: OnEnableAttackCollider
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 446f218fc31e0ed4ebe57e27df2baf47,
           type: 3}
-        floatParameter: 40
+        floatParameter: 0
         intParameter: 0
         messageOptions: 0
       transformMask: []

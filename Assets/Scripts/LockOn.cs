@@ -59,7 +59,7 @@ public class LockOn : MonoBehaviour
             return;
         }
         currentTargetPosition = currentTarget.targetPos.transform.position;
-        lockonimage.position = Camera.main.WorldToScreenPoint(currentTargetPosition);
+        lockonimage.position = Camera.main.WorldToScreenPoint(currentTargetPosition+Vector3.up * currentTarget.offset);
     }
     void SearchingLockOnTarget()
     {

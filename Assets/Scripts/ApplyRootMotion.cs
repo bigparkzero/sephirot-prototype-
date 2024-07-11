@@ -17,5 +17,6 @@ public class ApplyRootMotion : StateMachineBehaviour
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.applyRootMotion = true;
+        animator.GetComponent<PlayerMoveAnimation>().dontmove = true;
     }
 }

@@ -29,7 +29,7 @@ public class PlayerAttack : MonoBehaviour
                 targetKnockback.ApplyKnockback(target.transform.position - go_owner.transform.position, 5f, 0.4f);
             }
 
-            Instantiate(go_hitEffect, other.ClosestPoint(transform.position), Quaternion.identity);
+            //Instantiate(go_hitEffect, other.ClosestPoint(transform.position), Quaternion.identity);
         }
 
         alreadyHitObjects.Add(target);
