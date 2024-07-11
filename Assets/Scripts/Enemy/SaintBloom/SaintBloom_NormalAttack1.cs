@@ -107,13 +107,13 @@ public class SaintBloom_NormalAttack1 : EnemySkillEffectBase
             }
             else
             {
-                owner.EndAttack();
-
+                skills.ExitSkill();
                 owner.GetComponent<Knockback>().EnableKnockback();
             }
         }
         else
         {
+            skills.ExitSkill();
             owner.EndAttack();
 
             owner.GetComponent<Knockback>().EnableKnockback();

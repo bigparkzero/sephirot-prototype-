@@ -11,6 +11,8 @@ public abstract class EnemySkillEffectBase : MonoBehaviour
     [HideInInspector] public float durationTimer;
     [HideInInspector] public EnemyBehavior owner;
     [HideInInspector] public float DURATION;
+
+    protected bool isChainable;
     
     public GameObject colliderObject;
 
@@ -44,7 +46,10 @@ public abstract class EnemySkillEffectBase : MonoBehaviour
 
     public virtual void OnExit(bool isForcedStop)
     {
-        skills.ExitSkill();
+        if (!isChainable)
+        {
+            skills.ExitSkill();
+        }
         colliderObject.SetActive(false);
     }
 }

@@ -14,6 +14,7 @@ public class ComboReset : StateMachineBehaviour
         {
             animator.ResetTrigger(triggerName[i]);
         }
+        animator.GetComponent<PlayerMoveAnimation>().LookAtTarget();
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

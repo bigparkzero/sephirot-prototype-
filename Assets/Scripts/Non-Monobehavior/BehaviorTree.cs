@@ -285,8 +285,11 @@ namespace BehaviorTree
 
             if (canAttack)
             {
-                _enemyBehavior.tracingDistance = _enemyBehavior.skills.Range;
-                return BTNodeState.SUCCESS;
+                _enemyBehavior.tracingDistance = _enemyBehavior.skills.Range * 0.8f;
+                if (Vector3.Distance(_enemyBehavior.transform.position, _enemyBehavior.target.transform.position) <= _enemyBehavior.skills.Range)
+                {
+                    return BTNodeState.SUCCESS;
+                }
             }
 
             return BTNodeState.FAILURE;

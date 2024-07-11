@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Stats : MonoBehaviour
 {
     [SerializeField]
-    //[ReadOnly]
+    [ReadOnly]
     float hp;
     public float maxHP = -1;
+
+    public Slider slider_hpBar;
 
     public float HP
     {
@@ -35,6 +36,7 @@ public class Stats : MonoBehaviour
         }
 
         hp = maxHP;
+        UpdateUI();
     }
 
     public void Healed(float heal)
@@ -42,6 +44,7 @@ public class Stats : MonoBehaviour
         if (IsDead) return;
 
         hp = Mathf.Min(hp + heal, maxHP);
+        UpdateUI();
     }
 
     public void Damaged(float damage)
@@ -49,5 +52,14 @@ public class Stats : MonoBehaviour
         if (IsDead) return;
 
         hp = Mathf.Max(0, hp - damage);
+        UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+        if (slider_hpBar != null)
+        {
+            slider_hpBar.value = hp / maxHP;
+        }
     }
 }

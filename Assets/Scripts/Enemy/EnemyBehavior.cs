@@ -3,6 +3,7 @@ using Pathfinding;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class EnemyBehavior : MonoBehaviour
 {
@@ -437,6 +438,7 @@ public class EnemyBehavior : MonoBehaviour
             isAttacking = false;
 
             anim.SetInteger("ActionIndex", 0);
+            tracingDistance = 10f;
         }
     }
 

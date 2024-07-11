@@ -77,8 +77,6 @@ public class SaintBloom_NormalAttack2 : EnemySkillEffectBase
         colliderObject.transform.localRotation = originColliderLocal.rot;
         colliderObject.SetActive(false);
 
-        owner.EndAttack();
-
         owner.GetComponent<Knockback>().EnableKnockback();
     }
 }

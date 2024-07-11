@@ -44,7 +44,6 @@ public class LockOn : MonoBehaviour
             if (isLockOn)
             {
                 ResetTarget();
-                currentTarget = null;
             }
             else
             {
@@ -60,7 +59,7 @@ public class LockOn : MonoBehaviour
             return;
         }
         currentTargetPosition = currentTarget.targetPos.transform.position;
-        lockonimage.position = Camera.main.WorldToScreenPoint(currentTargetPosition + Vector3.up*currentTarget.lcokonimageoffset);
+        lockonimage.position = Camera.main.WorldToScreenPoint(currentTargetPosition);
     }
     void SearchingLockOnTarget()
     {
@@ -112,7 +111,6 @@ public class LockOn : MonoBehaviour
     }
     void ResetTarget()
     {
-        currentTarget = null;
         isLockOn = false;
         targetEnemy.Clear();
         lockonimage.gameObject.SetActive(false);

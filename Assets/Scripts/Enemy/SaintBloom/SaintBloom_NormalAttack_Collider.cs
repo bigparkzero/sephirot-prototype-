@@ -8,7 +8,8 @@ public class SaintBloom_NormalAttack_Collider : MonoBehaviour
 
     List<GameObject> alreadyHitObjects = new List<GameObject>();
 
-    public GameObject hitEffect;
+    public GameObject go_hitEffect;
+    public GameObject go_owner;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,17 +19,17 @@ public class SaintBloom_NormalAttack_Collider : MonoBehaviour
 
         if (target.layer == LayerMask.NameToLayer("Player"))
         {
-            if (TryGetComponent(out Stats targetStats))
+            if (target.TryGetComponent(out Stats targetStats))
             {
                 targetStats.Damaged(damage);
             }
 
-            if (TryGetComponent(out Knockback targetKnockback))
+            if (target.TryGetComponent(out Knockback targetKnockback))
             {
-                targetKnockback.ApplyKnockback(target.transform.forward * -1f, 5f, 0.4f);
+                targetKnockback.ApplyKnockback(target.transform.position - go_owner.transform.position, 5f, 0.4f);
             }
 
-            Instantiate(hitEffect, other.ClosestPoint(transform.position), Quaternion.identity);
+            Instantiate(go_hitEffect, other.ClosestPoint(transform.position), Quaternion.identity);
         }
         
         alreadyHitObjects.Add(target);

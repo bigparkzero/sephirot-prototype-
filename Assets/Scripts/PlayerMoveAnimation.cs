@@ -1,8 +1,6 @@
+
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 
 
@@ -56,9 +54,6 @@ public class PlayerMoveAnimation : MonoBehaviour
     private int _animIDMotionSpeed;
     private int _animIDPlayerAngle;
 
-    private Quaternion LerpTargetPos;
-
-
     private Animator an;
     private CharacterController _controller;
     private GameObject _mainCamera;
@@ -78,7 +73,8 @@ public class PlayerMoveAnimation : MonoBehaviour
     float WIRE_DASH_JUMP_HEIGHT = 1f;
 
     Knockback knockback;
-
+    public bool dontmove;
+    public GameObject attackcollider;
     private void Awake()
     {
         // get a reference to our main camera
@@ -102,20 +98,37 @@ public class PlayerMoveAnimation : MonoBehaviour
         _fallTimeoutDelta = FallTimeout;
          
         lockon = GetComponent<LockOn>();
+
+        knockback = GetComponent<Knockback>();
     }
 
-    public void ApplyRootMotion(int RootMotion)
-    {
-        an.applyRootMotion = RootMotion == 1 ? true : false;
-    }
     private void Update()
     {
+        if (knockback.IsKnockbacked)
+        {
+            input();
+            return;
+        }
+
+        if (isWireActivated)
+        {
+            input();
+            return;
+        }
 
         JumpAndGravity();
-        GroundedCheck();
-        Move();
+        if (GroundedCheck())
+        {
+            an.SetBool("Jump", false);
+            an.SetBool(_animIDGrounded, Grounded);
+        }
+        if (!dontmove)
+        {
+            Move();
+        }
+       
         input();
-        roll();
+       
     }
 
     private void LateUpdate()
@@ -138,14 +151,20 @@ public class PlayerMoveAnimation : MonoBehaviour
         move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         sprint = Input.GetKey(KeyCode.LeftShift);
         look = new Vector2(Input.GetAxisRaw("Mouse X"), -Input.GetAxisRaw("Mouse Y"));
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            an.SetTrigger("roll");
+        }
     }
-    private void GroundedCheck()
+    private bool GroundedCheck()
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
             transform.position.z);
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
-        an.SetBool(_animIDGrounded, Grounded);
+
+        return Grounded;
     }
     private void CameraRotation()
     {
@@ -163,12 +182,12 @@ public class PlayerMoveAnimation : MonoBehaviour
         {
             Vector3 direction = (lockon.currentTarget.targetPos.transform.position - CinemachineCameraTarget.transform.position).normalized;
             direction.y += lockon.cameraDirectionY;
-
             CinemachineCameraTarget.transform.forward = Vector3.Lerp
                 (CinemachineCameraTarget.transform.forward, direction, Time.deltaTime * lockon.cameraDirectionSmoothTime);
             Vector3 camAngles = _mainCamera.transform.eulerAngles;
             _cinemachineTargetPitch = camAngles.x > TopClamp ? camAngles.x - 360 : camAngles.x;
             _cinemachineTargetYaw = camAngles.y;
+            print(camAngles);
         }
         else
         {
@@ -197,7 +216,6 @@ public class PlayerMoveAnimation : MonoBehaviour
         _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
         if (_animationBlend < 0.01f) _animationBlend = 0f;
         Vector3 inputDirection = new Vector3(move.x, 0.0f, move.y).normalized;
-       
         if (move != Vector2.zero)
         {
             _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
@@ -216,38 +234,70 @@ public class PlayerMoveAnimation : MonoBehaviour
                 }
             }
         }
-        if (an.applyRootMotion && lockon.currentTarget != null)
-        {
-            Vector3 lookvetor = lockon.currentTarget.transform.position - transform.position;
-            if (Mathf.Abs(lookvetor.magnitude) >= 4 + lockon.currentTarget.transform.localScale.x)
-            {
-                if (Mathf.Abs(lookvetor.magnitude) < 25 + lockon.currentTarget.transform.localScale.x)
-                {
-                    _controller.Move(new Vector3(lookvetor.x, 0, lookvetor.z).normalized * Time.deltaTime * 50);
-                }
-            }
-        }
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-        if (!an.applyRootMotion)
-        {
-            _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-        }
-        an.SetFloat(_animIDSpeed, _animationBlend);
-        //print(Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg - _mainCamera.transform.eulerAngles.y);
+        _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+                         new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+            an.SetFloat(_animIDSpeed, _animationBlend);
         float velocity = 2;
         an.SetFloat(_animIDPlayerAngle, lockon.isLockOn ? Mathf.SmoothDamp(an.GetFloat(_animIDPlayerAngle),
                                                                            _targetRotation - _mainCamera.transform.eulerAngles.y,
                                                                            ref velocity, 0.05f) : 0);
-        
     }
-
-    void roll()
+    public void OnEnableAttackCollider(int SetActive)
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        attackcollider.SetActive(SetActive == 1 ? true : false);
+    }
+    
+    public void LookAtTarget()
+    {
+        transform.rotation = Quaternion.Euler(0,_mainCamera.transform.rotation.y,0);
+    }
+    private void JumpAndGravity()
+    {
+        if (_controller.isGrounded)
         {
-            an.SetTrigger("roll");
+            _fallTimeoutDelta = FallTimeout;
+                an.SetBool(_animIDJump, false);
+                an.SetBool(_animIDFreeFall, false);
+            if (_verticalVelocity < 0.0f)
+            {
+                _verticalVelocity = -2f;
+            }
+            if (jump && _jumpTimeoutDelta <= 0.0f)
+            {
+                _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+                    an.SetBool(_animIDJump, true);
+            }
+
+            if (_jumpTimeoutDelta >= 0.0f)
+            {
+                _jumpTimeoutDelta -= Time.deltaTime;
+            }
         }
+        else
+        {
+            _jumpTimeoutDelta = JumpTimeout;
+            if (_fallTimeoutDelta >= 0.0f)
+            {
+                _fallTimeoutDelta -= Time.deltaTime;
+            }
+            else
+            {
+                    an.SetBool(_animIDFreeFall, true);
+            }
+            jump = false;
+        }
+        if (_verticalVelocity < _terminalVelocity)
+        {
+            _verticalVelocity += Gravity * Time.deltaTime;
+        }
+    }
+    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+    {
+        if (lfAngle < -360f) lfAngle += 360f;
+        if (lfAngle > 360f) lfAngle -= 360f;
+        return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
     public void WireDash(WireTarget target)
@@ -291,14 +341,11 @@ public class PlayerMoveAnimation : MonoBehaviour
         float targetY = targetPosition.y;
         float heightDifference = targetY - startY;
 
-        //TODO: dashing anim? 점프 애니메이션 움찔거림 문제.
-        
-        /*
-        if (GroundedCheck())
+        if (!GroundedCheck())
         {
             an.SetBool(_animIDJump, true);
         }
-        */
+
         while (elapsedTime < dashTime)
         {
             elapsedTime += Time.deltaTime;
@@ -321,78 +368,23 @@ public class PlayerMoveAnimation : MonoBehaviour
         isWireActivated = false;
     }
 
-
-
-
-    public void applyRootMotion(int a)
-    {
-        //an.applyRootMotion = a == 1 ? true : false;
-        //Debug.Log("eagoaih");
-    }
-
-    public void playerrotation(float offset)
-    {
-        transform.rotation = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y + offset, 0.0f);
-    }
-
-    #region
-    #endregion
-    private void JumpAndGravity()
-    {
-        if (_controller.isGrounded)
-        {
-            _fallTimeoutDelta = FallTimeout;
-                an.SetBool(_animIDJump, false);
-                an.SetBool(_animIDFreeFall, false);
-            if (_verticalVelocity < 0.0f)
-            {
-                _verticalVelocity = -2f;
-            }
-            if (jump && _jumpTimeoutDelta <= 0.0f)
-            {
-                _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-                an.SetBool(_animIDJump, true);
-            }
-
-            if (_jumpTimeoutDelta >= 0.0f)
-            {
-                _jumpTimeoutDelta -= Time.deltaTime;
-            }
-        }
-        else
-        {
-            _jumpTimeoutDelta = JumpTimeout;
-            if (_fallTimeoutDelta >= 0.0f)
-            {
-                _fallTimeoutDelta -= Time.deltaTime;
-            }
-            else
-            {
-                an.SetBool(_animIDFreeFall, true);
-            }
-            jump = false;
-        }
-        if (_verticalVelocity < _terminalVelocity)
-        {
-            _verticalVelocity += Gravity * Time.deltaTime;
-        }
-    }
-    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
-    {
-        if (lfAngle < -360f) lfAngle += 360f;
-        if (lfAngle > 360f) lfAngle -= 360f;
-        return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
-
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
         Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
+
         if (Grounded) Gizmos.color = transparentGreen;
         else Gizmos.color = transparentRed;
         Gizmos.DrawSphere(
             new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
             GroundedRadius);
+    }
+#endif
+
+    private void OnValidate()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }
 
